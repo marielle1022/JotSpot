@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">JotSpot</string>
+    <string name="create_an_entry">Create An Entry</string>
+    <string name="want_to_add_something">Want to add something?</string>
+    <string name="text_entry_box">..</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+    <string name="Schedule">Customize Your Schedule</string>
+    <string name="jotspot">JotSpot</string>
 </resources>

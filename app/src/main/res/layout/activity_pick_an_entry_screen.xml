@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/photo1_final"
+    tools:context=".PickAnEntryScreenActivity" >
+
+    <TextView
+        android:id="@+id/createEntry"
+        android:layout_width="335dp"
+        android:layout_height="103dp"
+        android:fontFamily="@font/rock_salt"
+        android:text="@string/create_an_entry"
+        android:textColor="#FFFFFF"
+        android:textSize="31sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/mic_button"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/button_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/camera_button"
+        app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+    <ImageButton
+        android:id="@+id/camera_button"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:layout_constraintBottom_toTopOf="@+id/mic_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_button"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:background="@drawable/button_shape"/>
+
+    <ImageButton
+        android:id="@+id/text_button"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        app:layout_constraintBottom_toTopOf="@+id/camera_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createEntry"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:background="@drawable/button_shape"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

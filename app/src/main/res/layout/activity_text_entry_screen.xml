@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TextEntryScreenActivity"
+    android:background="@drawable/soft_abstract_background_in_light_colors_vector_21474540">
+    <!--    android:background="#B9E691">-->
+    <!--    android:background="#E6A291"-->
+
+
+    <EditText
+        android:id="@+id/text_entry_box"
+        android:layout_width="370dp"
+        android:layout_height="243dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="110dp"
+        android:background="@drawable/button_shape2"
+        android:paddingLeft="15dip"
+        android:paddingTop="10dip"
+        android:paddingRight="15dip"
+        android:paddingBottom="10dip"
+        android:text="@string/text_entry_box"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/save_text_button"
+        android:autofillHints=""
+        android:gravity="top|left"/>
+
+    <Button
+        android:id="@+id/save_text_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rock_salt"
+        android:text="@string/save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/discard_text_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/rock_salt"
+        android:text="@string/discard"
+        app:layout_constraintEnd_toStartOf="@+id/save_text_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/add_something"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:text="@string/want_to_add_something"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_entry_box" />
+
+    <ImageButton
+        android:id="@+id/text_mic_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_shape"
+        android:src="@android:drawable/ic_btn_speak_now"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/text_camera_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_something"
+        />
+
+    <ImageButton
+        android:id="@+id/text_camera_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_shape"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_something"
+        tools:layout_constraintEnd_toStartOf="@id/text_mic_button"
+        />
+
+    <ImageButton
+        android:id="@+id/grinning_mood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/grinning_face_1f600"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible"
+        />
+
+    <ImageButton
+        android:id="@+id/slightly_happy_mood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/slightly_smiling_face_1f642"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible"
+        />
+
+    <ImageButton
+        android:id="@+id/neutral_mood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/neutral_face_1f610"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible"
+        />
+
+    <ImageButton
+        android:id="@+id/slightly_sad_mood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/confused_face_1f615"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible"
+        />
+
+    <ImageButton
+        android:id="@+id/sad_mood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frowning_face_2639_fe0f"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible"
+        />
+
+    <ImageButton
+        android:id="@+id/very_sad_mood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/downcast_face_with_sweat_1f613"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
