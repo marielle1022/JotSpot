@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "909031419248",
+    "project_id": "jotspot-fa2ac",
+    "storage_bucket": "jotspot-fa2ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909031419248:android:63f6fa14b64f331f63b3b5",
+        "android_client_info": {
+          "package_name": "edu.neu.madcourse.jotspot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909031419248-k2bk34kqot1h4g5bj0s9aq3gqhb1d1dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxgS42DyEYx7IzBEy2XuQPpyYec0yhjA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909031419248-k2bk34kqot1h4g5bj0s9aq3gqhb1d1dp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
