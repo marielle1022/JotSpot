@@ -7,6 +7,14 @@
     tools:context=".VoiceRecordingScreenActivity"
     android:background="@drawable/soft_abstract_background_in_light_colors_vector_21474540">
 
+<!--    <Button-->
+<!--        android:id="@+id/stopPlay"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="StopPlaying"-->
+<!--        tools:layout_editor_absoluteX="214dp"-->
+<!--        tools:layout_editor_absoluteY="451dp" />-->
+
     <ImageButton
         android:id="@+id/record_button"
         android:layout_width="100dp"

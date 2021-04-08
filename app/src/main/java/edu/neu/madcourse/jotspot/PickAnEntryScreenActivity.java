@@ -16,7 +16,7 @@ public class PickAnEntryScreenActivity extends AppCompatActivity {
     private ImageButton textButton;
     private ImageButton cameraButton;
     private ImageButton micButton;
-    static final int MY_REQUEST_CODE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class PickAnEntryScreenActivity extends AppCompatActivity {
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToCamera();
+                createPhotoEntry();
             }
         });
 
@@ -54,20 +54,9 @@ public class PickAnEntryScreenActivity extends AppCompatActivity {
         PickAnEntryScreenActivity.this.startActivity(textIntent);
     }
 
-    private void goToCamera() {
-        if (checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    MY_REQUEST_CODE);
-        }
-        try {
-            Intent cameraIntent = new Intent();
-            cameraIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivity(cameraIntent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void createPhotoEntry() {
+        Intent photoIntent = new Intent(PickAnEntryScreenActivity.this, PhotoEntryScreenActivity.class);
+        PickAnEntryScreenActivity.this.startActivity(photoIntent);
     }
 
     private void createVoiceRecording() {
