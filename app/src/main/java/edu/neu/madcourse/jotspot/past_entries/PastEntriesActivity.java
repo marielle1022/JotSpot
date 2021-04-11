@@ -14,3 +14,6 @@ public class PastEntriesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_past_entries);
     }
 }
+
+// Note: this was adapted from Marielle's previous assignment, which referenced the sample code
+// provided in class.
