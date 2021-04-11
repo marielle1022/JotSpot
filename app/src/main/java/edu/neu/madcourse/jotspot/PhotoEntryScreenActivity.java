@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 //import com.google.firebase.storage.FirebaseStorage;
 //import com.google.firebase.storage.StorageReference;
@@ -32,7 +33,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PhotoEntryScreenActivity extends AppCompatActivity {
 
@@ -44,7 +47,10 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
     private StorageReference storageRef;
     private String currentPhotoPath;
     private String imageFileName;
-    private Uri photoUri;
+    private List<String> listImageFileNames;
+    private List<Uri> listPhotoUris;
+    private String username;
+    private String entryTimestamp;
     static final int MY_REQUEST_CODE = 1;
     static final int MY_PHOTO_REQUEST_CODE = 2;
 
@@ -53,11 +59,18 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_entry_screen);
 
+        username = "test";
+
         // Firebase Storage instance
         storage = FirebaseStorage.getInstance();
         // Creating a storage reference
-//        storageRef = storage.getReference();
-        storageRef = storage.getReferenceFromUrl("gs://jotspot-fa2ac.appspot.com");
+        storageRef = storage.getReference();
+//        storageRef = storage.getReferenceFromUrl("gs://jotspot-fa2ac.appspot.com");
+
+        entryTimestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        listImageFileNames = new ArrayList<>();
+        listPhotoUris = new ArrayList<>();
 
         saveButton = (Button) findViewById(R.id.save_button_photo);
         discardButton = (Button) findViewById(R.id.discard_button_photo);
@@ -65,6 +78,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         cameraButton = (ImageButton) findViewById(R.id.camera_device_button);
         uploadButton = (ImageButton) findViewById(R.id.upload_device_button);
 
+        // Take a photo
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,39 +86,24 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
             }
         });
 
+        // Save photo entry and upload to cloud storage
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View view) {
-                StorageReference photoReference = storageRef.child(imageFileName + ".jpg");
-                test(photoReference, photoUri);
+                if ((listImageFileNames.size() != 0) && (listPhotoUris.size() != 0)) {
+                    // For each image in the entry, create a reference to where the image will be
+                    // stored in cloud storage
+                    for (int i = 0; i < listImageFileNames.size(); i++) {
+                        StorageReference photoReference =
+                                storageRef.child(username).child(entryTimestamp).child(listImageFileNames.get(i) + ".jpg");
+                        uploadPhoto(photoReference, listPhotoUris.get(i));
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "There are no photos to save.", Toast.LENGTH_LONG).show();
+                }
             }
         });
-
-
     }
-
-//    private void testFiles() {
-//        File file = new File(getExternalFilesDir(null), "DemoFile.jpg");
-//        try {
-//            // Very simple code to copy a picture from the application's
-//            // resource into the external file.  Note that this code does
-//            // no error checking, and assumes the picture is small (does not
-//            // try to copy it in chunks).  Note that if external storage is
-//            // not currently mounted this will silently fail.
-//            Log.w("ExternalStorage", "Trying to view file " + file);
-//            InputStream is = getResources().openRawResource(+ R.drawable.neutral_face_1f610);
-//            OutputStream os = new FileOutputStream(file);
-//            byte[] data = new byte[is.available()];
-//            is.read(data);
-//            os.write(data);
-//            is.close();
-//            os.close();
-//        } catch (IOException e) {
-//            // Unable to create file, likely because external storage is
-//            // not currently mounted.
-//            Log.w("ExternalStorage", "Error writing " + file, e);
-//        }
-//    }
 
     private void goToCamera() {
         if (checkSelfPermission(Manifest.permission.CAMERA)
@@ -125,43 +124,27 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 }
                 // If the file was created successfully, take the photo
                 if (photoFile != null) {
-                    photoUri = FileProvider.getUriForFile(this, "edu.neu.madcourse.jotspot.fileprovider", photoFile);
+                    Uri photoUri = FileProvider.getUriForFile(this, "edu.neu.madcourse.jotspot.fileprovider", photoFile);
                     Log.w("photo", photoUri.toString());
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                     startActivityForResult(cameraIntent, MY_PHOTO_REQUEST_CODE);
+                    // Add file name to list
+                    listImageFileNames.add(imageFileName);
+                    // Add photo uri to list
+                    listPhotoUris.add(photoUri);
                     // TODO: check this, add child for username
                     // TODO: move this to "save", need to modify for multiple files
                     // TODO: figure out how to ask for and grant storage permissions
-                    // Reference Firebase documentation on how to upload files
-                    // Create a reference to where the image will be stored in cloud storage
-//                    StorageReference photoReference = storageRef.child(imageFileName + ".jpg");
-//                    test(photoReference, photoUri);
-//                    // Upload to cloud storage
-//                    UploadTask uploadTask = photoReference.putFile(photoUri);
-//                    // Register observers to listen for when the download is done or if it fails
-//                    uploadTask.addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception exception) {
-//                            // Handle unsuccessful uploads
-//                        }
-//                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                        @Override
-//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-//                            // ...
-//                            Log.w("upload", "upload success");
-//                        }
-//                    });
                 }
-//                startActivity(cameraIntent);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    // testing
-    private void test(StorageReference photoRef, Uri photoUri) {
+    // Upload photo to cloud storage
+    private void uploadPhoto(StorageReference photoRef, Uri photoUri) {
+        // Reference Firebase documentation on how to upload files
         // Upload to cloud storage
         UploadTask uploadTask = photoRef.putFile(photoUri);
         // Register observers to listen for when the download is done or if it fails
@@ -176,6 +159,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 // ...
                 Log.w("upload", "upload success");
+                Toast.makeText(getApplicationContext(), "Photo entry saved successfully.", Toast.LENGTH_LONG).show();
             }
         });
     }
