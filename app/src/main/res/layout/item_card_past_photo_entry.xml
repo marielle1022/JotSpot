@@ -19,6 +19,8 @@
             android:layout_marginTop="7dp"
             android:hint="@string/date_time_default" />
 
+        <!--        TODO: set non-emoji default photo for all image views-->
+
         <ImageView
             android:id="@+id/photo_entry1_view"
             android:layout_width="wrap_content"
