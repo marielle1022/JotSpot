@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -45,6 +46,8 @@ public class TextEntryScreenActivity extends AppCompatActivity {
     Button discardTextEntry;
     Button saveTextEntry;
 
+    private String TAG = "EntryTag";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,30 +65,7 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         // TODO: set up actual user
         user = new User(username);
 
-        // TODO: figure out Firebase tokens!
-        // code from Firebase docs on getting tokens
-//        FirebaseMessaging.getInstance().getToken()
-//                .addOnCompleteListener(new OnCompleteListener<String>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<String> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-//                            return;
-//                        }
-//
-//                        // Get new FCM registration token
-//                        String token = task.getResult();
-//
-//                        // Log and toast
-//                        String msg = getString(R.string.msg_token_fmt, token);
-//                        Log.d(TAG, msg);
-//                        Toast.makeText(NewStickerActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                        currentUser.setToken(token);
-//                        mDatabaseRef.child("Users").child(currentUser.getUsername()).child("token").setValue(token);
-//                        CLIENT_REGISTRATION_TOKEN = token;
-//                    }
-//
-//                });
+        // TODO: need Firebase tokens?
 
         textEntryView = (EditText) findViewById(R.id.text_entry_box);
 
@@ -94,7 +74,8 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         discardTextEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                discard();
+//                discard();
+                test();
             }
         });
 
@@ -109,7 +90,7 @@ public class TextEntryScreenActivity extends AppCompatActivity {
 
     }
 
-
+    // Discard text entry
     private void discard() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm discard");
@@ -143,33 +124,42 @@ public class TextEntryScreenActivity extends AppCompatActivity {
     // Create text entry and add to the database
     private void addTextEntryToDb(String inTextEntry) {
         timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        Entry textEntryObj = new Entry("TEXT", timestamp, inTextEntry);
+        try {
+            Entry textEntryObj = new Entry("TEXT", timestamp, inTextEntry);
+            // Method to add to firebase taken from Firebase Realtime Database
+            // documentation on saving data
+            DatabaseReference usersRef = databaseRef.child("users");
+            usersRef.child(username).child(timestamp).setValue(textEntryObj);
+        } catch (ParseException e) {
+            Log.w(TAG, e);
+        }
         // Method to add to firebase taken from Firebase Realtime Database
         // documentation on saving data
-        DatabaseReference usersRef = databaseRef.child("users");
+//        DatabaseReference usersRef = databaseRef.child("users");
         // TODO: figure out why setValueAsync doesn't work
         // https://firebase.google.com/docs/database/admin/save-data
         // Use push() to set unique key
 //        usersRef.child(username).push().setValue(inTextEntry);
-        usersRef.child(username).child(timestamp).setValue(textEntryObj);
+//        usersRef.child(username).child(timestamp).setValue(textEntryObj);
     }
 
     // TODO: Use this to get text entry from db
     private void test() {
-        Log.w("USER", username);
-        Log.w("USER", timestamp);
         databaseRef.child("users").child(username).child(timestamp).addListenerForSingleValueEvent(new ValueEventListener() {
             // Use snapshot to create Entry object
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     Entry textEntry = snapshot.getValue(Entry.class);
-                    Log.w("USER", textEntry.toString());
-                    Log.w("USER", textEntry.getEntryType());
-                    Log.w("USER", textEntry.getTextEntry());
-                    Log.w("USER", textEntry.getTimestamp());
+                    if (textEntry != null) {
+                        try {
+                            Log.w(TAG, textEntry.convertTimestamp());
+                        } catch (ParseException e) {
+                            Log.w(TAG, e);
+                        }
+                    }
                 } else {
-                    Log.w("USER", "doesn't exist");
+                    Log.w(TAG, "doesn't exist");
                 }
             }
 

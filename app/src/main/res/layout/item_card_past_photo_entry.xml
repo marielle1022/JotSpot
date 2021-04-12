@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    app:cardCornerRadius="5dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/photo_date_time_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:hint="@string/date_time_default" />
+
+        <ImageView
+            android:id="@+id/photo_entry1_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/photo_date_time_view"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/photo_entry1_default"
+            app:srcCompat="@drawable/slightly_smiling_face_1f642"/>
+
+        <ImageView
+            android:id="@+id/photo_entry2_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/photo_date_time_view"
+            android:layout_toEndOf="@id/photo_entry1_view"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/photo_entry2_default"
+            app:srcCompat="@drawable/slightly_smiling_face_1f642"/>
+
+        <ImageView
+            android:id="@+id/photo_entry3_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/photo_date_time_view"
+            android:layout_toEndOf="@id/photo_entry2_view"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/photo_entry3_default"
+            app:srcCompat="@drawable/slightly_smiling_face_1f642"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

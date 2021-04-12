@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -32,39 +34,56 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import edu.neu.madcourse.jotspot.firebase_helpers.Entry;
+
 public class PhotoEntryScreenActivity extends AppCompatActivity {
+
+    // Firebase-related variables
+    private FirebaseDatabase database;
+    private DatabaseReference databaseRef;
+
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
 
     private Button saveButton;
     private Button discardButton;
     private ImageButton cameraButton;
     private ImageButton uploadButton;
-    private FirebaseStorage storage;
-    private StorageReference storageRef;
+
     private String currentPhotoPath;
     private String imageFileName;
     private List<String> listImageFileNames;
     private List<Uri> listPhotoUris;
+
     private String username;
     private String entryTimestamp;
+
     static final int MY_REQUEST_CODE = 1;
     static final int MY_PHOTO_REQUEST_CODE = 2;
+    private String TAG = "EntryTag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_entry_screen);
 
-        username = "test";
+        username = "testUser";
+
+        // Firebase database objects
+        database = FirebaseDatabase.getInstance();
+        databaseRef = database.getReference();
 
         // Firebase Storage instance
         storage = FirebaseStorage.getInstance();
         // Creating a storage reference
         storageRef = storage.getReference();
+
 //        storageRef = storage.getReferenceFromUrl("gs://jotspot-fa2ac.appspot.com");
 
         entryTimestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -105,6 +124,24 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         });
     }
 
+    // Taken from Android Camera/Photo Basics documentation
+    // Create file where a photo can be saved locally
+    private File createFileForPhoto() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        // Save a file path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    // Take a photo with the camera and save it locally in the file created
     private void goToCamera() {
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -113,7 +150,6 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         } else {
             try {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                cameraIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
                 // Create file for photo
                 // Using Android Camera/Photo Basics documentation
                 File photoFile = null;
@@ -132,9 +168,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                     listImageFileNames.add(imageFileName);
                     // Add photo uri to list
                     listPhotoUris.add(photoUri);
-                    // TODO: check this, add child for username
-                    // TODO: move this to "save", need to modify for multiple files
-                    // TODO: figure out how to ask for and grant storage permissions
+                    // TODO: figure out how to ask for and grant storage permissions?
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -158,28 +192,25 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 // ...
+                // TODO: create photo entry object and upload to realtime db
+                addPhotoEntryToDb();
                 Log.w("upload", "upload success");
                 Toast.makeText(getApplicationContext(), "Photo entry saved successfully.", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    // Taken from Android Camera/Photo Basics documentation
-    private File createFileForPhoto() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        // Save a file path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
+    // Create photo entry and add to the database
+    private void addPhotoEntryToDb() {
+        try {
+            Entry photoEntryObj = new Entry("PHOTO", entryTimestamp, listImageFileNames);
+            // Method to add to firebase taken from Firebase Realtime Database
+            // documentation on saving data
+            DatabaseReference usersRef = databaseRef.child("users");
+            usersRef.child(username).child(entryTimestamp).setValue(photoEntryObj);
+        } catch (ParseException e) {
+            Log.w(TAG, e);
+        }
     }
-
-
 
 }

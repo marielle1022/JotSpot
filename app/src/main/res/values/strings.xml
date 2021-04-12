@@ -7,4 +7,12 @@
     <string name="discard">Discard</string>
     <string name="Schedule">Customize Your Schedule</string>
     <string name="jotspot">JotSpot</string>
+
+    <string name="date_time_default">Default Date/Time</string>
+    <string name="text_entry_default">Default Text Entry</string>
+    <string name="photo_entry1_default">Photo 1 for entry</string>
+    <string name="photo_entry2_default">Photo 2 for entry</string>
+    <string name="photo_entry3_default">Photo 3 for entry</string>
+    <string name="users_path">users/%s</string>
+
 </resources>
