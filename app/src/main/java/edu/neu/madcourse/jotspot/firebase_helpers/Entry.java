@@ -1,14 +1,36 @@
 package edu.neu.madcourse.jotspot.firebase_helpers;
 
 import android.net.Uri;
+import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 public class Entry {
 
     private EntryType etType;
     private String entryType;
+
+    // Auto-generated timestamp
     private String timestamp;
+    // Timestamp with "_" removed
+    private String timestampParsed;
+    // Formatted date and time based on timestamp
+    private Date dateTime;
+    // Formatted date and time string based on timestamp
+    private String dateTimeStr;
+//    // Formatted date based on timestamp
+//    private LocalDate dateObj;
+//    // Formatted time based on timestamp
+//    private LocalTime timeObj;
+
+    // Text for text entry
     private String textEntry;
     // List of Cloud Storage filepaths for photos for an entry
     private List<String> photoEntry;
@@ -33,7 +55,7 @@ public class Entry {
 //    }
 
     // Create entry object for text or voice entry
-    public Entry(String inType, String inTimestamp, String inEntry) {
+    public Entry(String inType, String inTimestamp, String inEntry) throws ParseException {
         entryType = inType;
         if (inType == "VOICE") {
             voiceEntry = inEntry;
@@ -41,6 +63,7 @@ public class Entry {
             textEntry = inEntry;
         }
         timestamp = inTimestamp;
+        dateTimeStr = convertTimestamp();
     }
 
 //    // Create entry object for photo entry
@@ -60,10 +83,11 @@ public class Entry {
 //    }
 
     // Create entry object for photo entry
-    public Entry(String inType, String inTimestamp, List<String> inPhotoEntry) {
+    public Entry(String inType, String inTimestamp, List<String> inPhotoEntry) throws ParseException {
         entryType = inType;
         timestamp = inTimestamp;
         photoEntry = inPhotoEntry;
+        dateTimeStr = convertTimestamp();
     }
 
     // TODO: getters/setters needed for everything
@@ -108,6 +132,14 @@ public class Entry {
         this.voiceEntry = entry;
     }
 
+    public String getDateTimeStr() {
+        return dateTimeStr;
+    }
+
+    public void setDateTimeStr(String dateTimeStr) {
+        this.dateTimeStr = dateTimeStr;
+    }
+
 //    public Uri getVoiceEntry() {
 //        return voiceEntry;
 //    }
@@ -135,6 +167,18 @@ public class Entry {
 
     public EntryType getEtType() {
         return etType;
+    }
+
+    // Convert timestamp to String of date and time
+    public String convertTimestamp() throws ParseException {
+        timestampParsed = timestamp.replace("_", "");
+        dateTime = new SimpleDateFormat("yyyyMMddHHmmss").parse(timestampParsed);
+        if (dateTime != null) {
+            dateTimeStr = dateTime.toString();
+            return dateTimeStr;
+        } else  {
+            return null;
+        }
     }
 
 }

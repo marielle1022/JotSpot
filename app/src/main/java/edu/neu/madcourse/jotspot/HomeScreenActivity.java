@@ -13,6 +13,8 @@ import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import edu.neu.madcourse.jotspot.past_entries.PastEntriesActivity;
+
 public class HomeScreenActivity extends AppCompatActivity {
 
 
@@ -54,6 +56,13 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
 
+        pastEntriesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewPastEntries();
+            }
+        });
+
     }
 
     private void createEntry() {
@@ -76,5 +85,10 @@ public class HomeScreenActivity extends AppCompatActivity {
     private void getSettings() {
         Intent settingsIntent = new Intent(HomeScreenActivity.this, SettingsScreenActivity.class);
         HomeScreenActivity.this.startActivity(settingsIntent);
+    }
+
+    private void viewPastEntries() {
+        Intent pastEntriesIntent = new Intent(HomeScreenActivity.this, PastEntriesActivity.class);
+        HomeScreenActivity.this.startActivity(pastEntriesIntent);
     }
 }
