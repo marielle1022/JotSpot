@@ -23,35 +23,32 @@
 
         <ImageView
             android:id="@+id/photo_entry1_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="175dp"
             android:layout_below="@id/photo_date_time_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:contentDescription="@string/photo_entry1_default"
-            app:srcCompat="@drawable/slightly_smiling_face_1f642"/>
+            android:contentDescription="@string/photo_entry1_default" />
 
         <ImageView
             android:id="@+id/photo_entry2_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="175dp"
             android:layout_below="@id/photo_date_time_view"
-            android:layout_toEndOf="@id/photo_entry1_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:contentDescription="@string/photo_entry2_default"
-            app:srcCompat="@drawable/slightly_smiling_face_1f642"/>
+            android:layout_toEndOf="@id/photo_entry1_view"
+            android:contentDescription="@string/photo_entry2_default" />
 
         <ImageView
             android:id="@+id/photo_entry3_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="175dp"
             android:layout_below="@id/photo_date_time_view"
-            android:layout_toEndOf="@id/photo_entry2_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:contentDescription="@string/photo_entry3_default"
-            app:srcCompat="@drawable/slightly_smiling_face_1f642"/>
+            android:layout_toEndOf="@id/photo_entry2_view"
+            android:contentDescription="@string/photo_entry3_default" />
 
     </RelativeLayout>
 
