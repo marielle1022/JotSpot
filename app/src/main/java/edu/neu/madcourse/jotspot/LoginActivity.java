@@ -11,6 +11,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -23,6 +24,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
 
+    private TextInputEditText email;
+
+    private TextInputEditText password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +35,10 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize FirebaseAuth object
         auth = FirebaseAuth.getInstance();
+
+        email = findViewById(R.id.email_login);
+
+        password = findViewById(R.id.password_login);
     }
 
     // Note: this was taken from the Firebase documentation on email/password authentication

@@ -14,5 +14,6 @@
     <string name="photo_entry2_default">Photo 2 for entry</string>
     <string name="photo_entry3_default">Photo 3 for entry</string>
     <string name="users_path">users/%s</string>
+    <string name="email">Email</string>
 
 </resources>
