@@ -40,6 +40,7 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.w(LOG_TAG, "onCreate");
         setContentView(R.layout.activity_voice_entry_screen);
 
 
@@ -68,7 +69,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
                     mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                     mRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
                     mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-                    mRecorder.setOutputFile("/dev/null");
+//                    mRecorder.setOutputFile("/dev/null");
+                    mRecorder.setOutputFile(outputFile);
                     Log.e("OutputFile", outputFile);
                     try {
                         mRecorder.prepare();
@@ -104,6 +106,7 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
         playbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.e(LOG_TAG, "in onClick");
                 stopbtn.setEnabled(false);
                 startbtn.setEnabled(true);
                 playbtn.setEnabled(false);
@@ -114,6 +117,7 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
                     mPlayer.prepare();
                     mPlayer.start();
                     Toast.makeText(getApplicationContext(), "Recording Started Playing", Toast.LENGTH_LONG).show();
+                    Log.e(LOG_TAG, "should play");
                 } catch (IOException e) {
                     Log.e(LOG_TAG, "prepare() failed");
                 }
