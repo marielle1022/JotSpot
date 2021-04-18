@@ -276,7 +276,7 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     // Create voice entry and add to the database
     private void addVoiceEntryToDb() {
         try {
-            Entry voiceEntryObj = new Entry("VOICE", entryTimestamp, fileName);
+            Entry voiceEntryObj = new Entry("VOICE", entryTimestamp, entryTimestamp + extension);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
             DatabaseReference usersRef = databaseRef.child("users");
