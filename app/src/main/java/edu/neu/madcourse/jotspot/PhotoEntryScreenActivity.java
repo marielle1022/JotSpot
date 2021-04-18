@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -61,6 +64,9 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
     private List<String> listImageFileNames;
     private List<Uri> listPhotoUris;
 
+    int numPhotosThisEntry;
+    int numPhotosLeftThisEntry;
+
     private String username;
     private String entryTimestamp;
 
@@ -91,6 +97,9 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         listImageFileNames = new ArrayList<>();
         listPhotoUris = new ArrayList<>();
 
+        numPhotosThisEntry = 0;
+        numPhotosLeftThisEntry = 0;
+
         saveButton = (Button) findViewById(R.id.save_button_photo);
         discardButton = (Button) findViewById(R.id.discard_button_photo);
 
@@ -101,7 +110,12 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToCamera();
+                // TODO: clean this up; should be able to delete photos
+                if (listImageFileNames.size() >= 3) {
+                    Toast.makeText(getApplicationContext(), "You can only upload 3 photos per entry.", Toast.LENGTH_LONG).show();
+                } else {
+                    goToCamera();
+                }
             }
         });
 
@@ -112,6 +126,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 if ((listImageFileNames.size() != 0) && (listPhotoUris.size() != 0)) {
                     // For each image in the entry, create a reference to where the image will be
                     // stored in cloud storage
+                    numPhotosLeftThisEntry = numPhotosThisEntry;
                     for (int i = 0; i < listImageFileNames.size(); i++) {
                         StorageReference photoReference =
                                 storageRef.child(username).child(entryTimestamp).child(listImageFileNames.get(i) + ".jpg");
@@ -120,6 +135,15 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "There are no photos to save.", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        // Discard entry
+        // TODO: figure out how to delete locally stored files
+        discardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                discardPhotoEntry();
             }
         });
     }
@@ -161,13 +185,14 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 // If the file was created successfully, take the photo
                 if (photoFile != null) {
                     Uri photoUri = FileProvider.getUriForFile(this, "edu.neu.madcourse.jotspot.fileprovider", photoFile);
-                    Log.w("photo", photoUri.toString());
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                     startActivityForResult(cameraIntent, MY_PHOTO_REQUEST_CODE);
                     // Add file name to list
                     listImageFileNames.add(imageFileName);
                     // Add photo uri to list
                     listPhotoUris.add(photoUri);
+                    // Add 1 to number of photos for this entry
+                    numPhotosThisEntry += 1;
                     // TODO: figure out how to ask for and grant storage permissions?
                 }
             } catch (Exception e) {
@@ -193,7 +218,16 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 // ...
                 // TODO: create photo entry object and upload to realtime db
-                addPhotoEntryToDb();
+                if (numPhotosLeftThisEntry == numPhotosThisEntry) {
+                    addPhotoEntryToDb();
+                }
+                numPhotosLeftThisEntry -= 1;
+                if (numPhotosLeftThisEntry == 0) {
+                    // Reset timestamp, list of photo file names, and list of photo file uris
+                    entryTimestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                    listImageFileNames = new ArrayList<>();
+                    listPhotoUris = new ArrayList<>();
+                }
                 Log.w("upload", "upload success");
                 Toast.makeText(getApplicationContext(), "Photo entry saved successfully.", Toast.LENGTH_LONG).show();
             }
@@ -211,6 +245,36 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         } catch (ParseException e) {
             Log.w(TAG, e);
         }
+    }
+
+    // Set up dialog box for "discard" button
+    private void discardPhotoEntry() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.discard_photo_warning));
+        builder.setCancelable(true);
+        builder.setPositiveButton(getString(R.string.discard_photo_yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Reset timestamp, list of photo file names, and list of photo file uris
+                entryTimestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                listImageFileNames = new ArrayList<>();
+                listPhotoUris = new ArrayList<>();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.discard_photo_no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        Button positiveButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        positiveButton.setTextColor(Color.RED);
+        Button negativeButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        negativeButton.setTextColor(Color.BLUE);
     }
 
 }
