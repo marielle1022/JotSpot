@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_margin="2dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
+        <ImageButton
+            android:id="@+id/trash"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/photo_preview"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+
+        <ImageView
+            android:id="@+id/photo_preview"
+            android:layout_width="200dp"
+            android:layout_height="match_parent" />
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -9,7 +9,7 @@
     tools:context=".HomeScreen">
 
     <TextView
-        android:id="@+id/jotspot_title"
+        android:id="@+id/jotspot_login_title"
         android:layout_width="266dp"
         android:layout_height="91dp"
         android:layout_marginStart="16dp"
@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toTopOf="@+id/pastentries_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/jotspot_title"
+        app:layout_constraintTop_toBottomOf="@+id/jotspot_login_title"
         android:background="@drawable/button_shape"/>
 
 
@@ -44,7 +44,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/jotspot_title"
+        app:layout_constraintTop_toBottomOf="@+id/jotspot_login_title"
         android:background="@drawable/button_shape"/>
 
     <Button

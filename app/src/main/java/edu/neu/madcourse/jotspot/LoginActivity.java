@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -23,6 +26,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
 
+    private TextInputEditText email;
+
+    private TextInputEditText password;
+
+    private Button loginButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +39,26 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize FirebaseAuth object
         auth = FirebaseAuth.getInstance();
+
+        email = findViewById(R.id.email_login);
+
+        password = findViewById(R.id.password_login);
+
+        loginButton = findViewById(R.id.login_button);
+
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logIn();
+            }
+        });
+
+    }
+
+    public void logIn() {
+        Intent loginIntent = new Intent(LoginActivity.this, HomeScreenActivity.class);
+        LoginActivity.this.startActivity(loginIntent);
     }
 
     // Note: this was taken from the Firebase documentation on email/password authentication
