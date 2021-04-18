@@ -88,6 +88,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
 
         username = "testUser";
 
+        // TODO: check for permissions
+
         getButtonViews();
 
         startRecordingButton.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +143,9 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
                     player.release();
                     player = null;
                 }
+                // Reset file path and timestamp
+                // TODO: check if this necessary
+                createFilePath();
             }
         });
     }
@@ -256,6 +261,7 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
+                Toast.makeText(getApplicationContext(), "Voice entry not saved.", Toast.LENGTH_LONG).show();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -278,6 +284,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
             // documentation on saving data
             DatabaseReference usersRef = databaseRef.child("users");
             usersRef.child(username).child(entryTimestamp).setValue(voiceEntryObj);
+            // Create new filepath and entry timestamp
+            createFilePath();
         } catch (ParseException e) {
             Log.w("VOICE", e);
         }
