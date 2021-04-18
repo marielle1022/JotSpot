@@ -5,8 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +30,10 @@ public class PastEntriesActivity extends AppCompatActivity {
     private PastEntriesRecyclerAdapter pastEntriesAdapter;
     private RecyclerView.LayoutManager pastEntriesLayoutManager;
 
+    private ImageButton photo1;
+    private ImageButton photo2;
+    private ImageButton photo3;
+
     // List of past entry items
     private ArrayList<PastEntriesItemCard> entriesList = new ArrayList<>();
 
@@ -40,6 +48,11 @@ public class PastEntriesActivity extends AppCompatActivity {
         username = "testUser";
 
         createRecyclerView();
+
+        photo1 = (ImageButton) findViewById(R.id.photo_entry1_view);
+        photo2 = (ImageButton) findViewById(R.id.photo_entry2_view);
+        photo3 = (ImageButton) findViewById(R.id.photo_entry3_view);
+
     }
 
     // Create RecyclerView
@@ -92,6 +105,7 @@ public class PastEntriesActivity extends AppCompatActivity {
             }
         });
     }
+
 }
 
 // Note: this was adapted from Marielle's previous assignment, which referenced the sample code

@@ -21,7 +21,7 @@
 
         <!--        TODO: set non-emoji default photo for all image views-->
 
-        <ImageView
+        <ImageButton
             android:id="@+id/photo_entry1_view"
             android:layout_width="100dp"
             android:layout_height="175dp"
@@ -30,7 +30,7 @@
             android:layout_marginTop="5dp"
             android:contentDescription="@string/photo_entry1_default" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/photo_entry2_view"
             android:layout_width="100dp"
             android:layout_height="175dp"
@@ -40,7 +40,7 @@
             android:layout_toEndOf="@id/photo_entry1_view"
             android:contentDescription="@string/photo_entry2_default" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/photo_entry3_view"
             android:layout_width="100dp"
             android:layout_height="175dp"

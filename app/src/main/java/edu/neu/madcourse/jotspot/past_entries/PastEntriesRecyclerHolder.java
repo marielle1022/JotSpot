@@ -1,11 +1,14 @@
 package edu.neu.madcourse.jotspot.past_entries;
 
+import android.content.Intent;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import edu.neu.madcourse.jotspot.HomeScreenActivity;
+import edu.neu.madcourse.jotspot.PickAnEntryScreenActivity;
 import edu.neu.madcourse.jotspot.R;
 
 // An object in the list
@@ -18,9 +21,9 @@ public class PastEntriesRecyclerHolder extends RecyclerView.ViewHolder {
     // Text Entry text view
     public TextView textEntryView;
     // Photo Entry photo views
-    public ImageView photoEntryImageView1;
-    public ImageView photoEntryImageView2;
-    public ImageView photoEntryImageView3;
+    public ImageButton photoEntryImageView1;
+    public ImageButton photoEntryImageView2;
+    public ImageButton photoEntryImageView3;
     // Voice Entry view
 
     public PastEntriesRecyclerHolder(View itemCardView, final PastEntriesRecyclerListener listener) {
@@ -33,10 +36,37 @@ public class PastEntriesRecyclerHolder extends RecyclerView.ViewHolder {
 
         textEntryView = itemCardView.findViewById(R.id.text_entry_view);
 
-        photoEntryImageView1 = itemCardView.findViewById(R.id.photo_entry1_view);
-        photoEntryImageView2 = itemCardView.findViewById(R.id.photo_entry2_view);
-        photoEntryImageView3 = itemCardView.findViewById(R.id.photo_entry3_view);
+        photoEntryImageView1 = (ImageButton) itemCardView.findViewById(R.id.photo_entry1_view);
+        photoEntryImageView2 = (ImageButton) itemCardView.findViewById(R.id.photo_entry2_view);
+        photoEntryImageView3 = (ImageButton) itemCardView.findViewById(R.id.photo_entry3_view);
 
+        photoEntryImageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToPreview();
+            }
+        });
+
+        photoEntryImageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToPreview();
+            }
+        });
+
+        photoEntryImageView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToPreview();
+            }
+        });
+    }
+
+
+    private void goToPreview() {
+        Intent previewIntent = new Intent(getContext(), PhotoPreviewActivity.class);
+        PastEntriesActivity.startActivity(previewIntent);
+    }
 
         // Set up listeners
 
@@ -56,6 +86,7 @@ public class PastEntriesRecyclerHolder extends RecyclerView.ViewHolder {
 //            }
 //        });
     }
+
 }
 
 // Note: this was adapted from Marielle's previous assignment, which referenced the sample code
