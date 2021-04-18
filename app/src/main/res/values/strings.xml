@@ -29,4 +29,7 @@
     <string name="feeling_sad">Sad</string>
     <string name="feeling_weepy">Weepy</string>
 
+    <string name="timestamp_placeholder">Timestamp</string>
+    <string name="mood_history_descriptor">Emoji for Mood History</string>
+
 </resources>

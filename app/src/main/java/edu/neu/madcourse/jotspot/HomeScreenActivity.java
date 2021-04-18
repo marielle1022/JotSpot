@@ -10,9 +10,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import edu.neu.madcourse.jotspot.moods.MoodHistoryActivity;
 import edu.neu.madcourse.jotspot.past_entries.PastEntriesActivity;
 
 public class HomeScreenActivity extends AppCompatActivity {
@@ -23,6 +25,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private Button pastEntriesButton;
     private Button resourcesButton;
     private FloatingActionButton settingsButton;
+    private ImageButton moodButton;
 
 
     @Override
@@ -34,6 +37,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         pastEntriesButton = (Button) findViewById(R.id.pastentries_button);
         resourcesButton = (Button) findViewById(R.id.resources_button);
         settingsButton = (FloatingActionButton) findViewById(R.id.settings_button);
+        moodButton = (ImageButton) findViewById(R.id.mood_button);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +64,13 @@ public class HomeScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 viewPastEntries();
+            }
+        });
+
+        moodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewMoodHistory();
             }
         });
 
@@ -90,5 +101,10 @@ public class HomeScreenActivity extends AppCompatActivity {
     private void viewPastEntries() {
         Intent pastEntriesIntent = new Intent(HomeScreenActivity.this, PastEntriesActivity.class);
         HomeScreenActivity.this.startActivity(pastEntriesIntent);
+    }
+
+    private void viewMoodHistory() {
+        Intent moodHistoryIntent = new Intent(HomeScreenActivity.this, MoodHistoryActivity.class);
+        HomeScreenActivity.this.startActivity(moodHistoryIntent);
     }
 }
