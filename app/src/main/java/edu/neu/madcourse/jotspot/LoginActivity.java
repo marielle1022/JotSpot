@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,12 +67,13 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // If user is logged in, auth will be non-null
-        // reload -- figure out what to do (update UI)
+        // TODO: reload -- figure out what to do (update UI -- go to home?)
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
-//            reload();
+            reload();
         }
     }
+    // TODO: create account
 
 //    // Note: this was taken from the Firebase documentation on authentication
 //    public void createSignInIntent() {
@@ -109,5 +111,9 @@ public class LoginActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
+
+    // Note: taken from Firebase documentation on email/password authentication
+    // Unclear on why there needs to be an empty function ?
+    private void reload() {}
 
 }

@@ -16,4 +16,13 @@
     <string name="users_path">users/%s</string>
     <string name="email">Email</string>
 
+    <string name="create_name_prompt">Name: </string>
+    <string name="create_name_entry">Type your name</string>
+    <string name="create_email_prompt">Email: </string>
+    <string name="create_email_entry">Type your email</string>
+    <string name="create_password_prompt">Password: </string>
+    <string name="create_password_entry">Type your password</string>
+    <string name="create_password_confirmation_prompt">Confirm Password:</string>
+    <string name="create_password_confirmation_entry">Type your password again</string>
+
 </resources>
