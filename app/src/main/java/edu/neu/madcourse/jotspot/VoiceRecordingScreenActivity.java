@@ -266,25 +266,25 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 // ...
                 // TODO: create voice entry object and upload to realtime db
-//                addPhotoEntryToDb();
+                addVoiceEntryToDb();
 //                Log.w("upload", "upload success");
                 Toast.makeText(getApplicationContext(), "Voice entry saved successfully.", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-//    // Create voice entry and add to the database
-//    private void addVoiceEntryToDb() {
-//        try {
-//            Entry voiceEntryObj = new Entry("VOICE", entryTimestamp, fileName);
-//            // Method to add to firebase taken from Firebase Realtime Database
-//            // documentation on saving data
-//            DatabaseReference usersRef = databaseRef.child("users");
-//            usersRef.child(username).child(entryTimestamp).setValue(photoEntryObj);
-//        } catch (ParseException e) {
-//            Log.w(TAG, e);
-//        }
-//    }
+    // Create voice entry and add to the database
+    private void addVoiceEntryToDb() {
+        try {
+            Entry voiceEntryObj = new Entry("VOICE", entryTimestamp, fileName);
+            // Method to add to firebase taken from Firebase Realtime Database
+            // documentation on saving data
+            DatabaseReference usersRef = databaseRef.child("users");
+            usersRef.child(username).child(entryTimestamp).setValue(voiceEntryObj);
+        } catch (ParseException e) {
+            Log.w("VOICE", e);
+        }
+    }
 
 }
 
