@@ -51,6 +51,27 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     private Button saveEntryButton;
     private Button discardEntryButton;
 
+    // Variables storing feelings buttons
+    // Options: "NONE", "VERY HAPPY", "HAPPY", "NEUTRAL", "SLIGHTLY BUMMED", "SAD", "WEEPY"
+    private ImageButton feeling1; // VERY HAPPY
+    private ImageButton feeling2; // HAPPY
+    private ImageButton feeling3; // NEUTRAL
+    private ImageButton feeling4; // SLIGHTLY BUMMED
+    private ImageButton feeling5; // SAD
+    private ImageButton feeling6; // WEEPY
+
+    // Strings for feelings
+    private static final String strFeeling1 = "VERY HAPPY";
+    private static final String strFeeling2 = "HAPPY";
+    private static final String strFeeling3 = "NEUTRAL";
+    private static final String strFeeling4 = "SLIGHTLY BUMMED";
+    private static final String strFeeling5 = "SAD";
+    private static final String strFeeling6 = "WEEPY";
+    private static final String strFeeling0 = "NONE";
+
+    // Variables storing mood
+    private String mood;
+
     // Firebase-related variables
     private FirebaseDatabase database;
     private DatabaseReference databaseRef;
@@ -88,9 +109,13 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
 
         username = "testUser";
 
+        mood = strFeeling0;
+
         // TODO: check for permissions
 
         getButtonViews();
+
+        setFeelingOnClicks();
 
         startRecordingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +182,14 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
         playRecordingButton = findViewById(R.id.play_button);
         saveEntryButton = findViewById(R.id.save_voice_button);
         discardEntryButton = findViewById(R.id.discard_voice_button);
+
+        feeling1 = findViewById(R.id.feelingButton1);
+        feeling2 = findViewById(R.id.feelingButton2);
+        feeling3 = findViewById(R.id.feelingButton3);
+        feeling4 = findViewById(R.id.feelingButton4);
+        feeling5 = findViewById(R.id.feelingButton5);
+        feeling6 = findViewById(R.id.feelingButton6);
+
     }
 
     // Create the filepath for local storage of the file
@@ -221,33 +254,33 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
         }
     }
 
-    private void getAudioRecording() throws IOException {
-        StorageReference voiceRef = storageRef.child(username).child("20210417_193914.3gp");
-        File localFile = File.createTempFile("test_audio", "3gp");
-        voiceRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Photo successfully downloaded
-                // Display in corresponding imageview
-                // Used TutorialsPoint to set image drawable
-                player = new MediaPlayer();
-                try {
-                    player.setDataSource(String.valueOf(localFile));
-                    player.prepare();
-                    player.start();
-                    Toast.makeText(getApplicationContext(), "Recording Playing", Toast.LENGTH_LONG).show();
-                } catch (IOException e) {
-                    Log.e("AUDIO", "prepare() for MediaPlayer failed in playRecording()");
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // TODO: figure out best way to handle errors
-                Log.w("in play audio", e);
-            }
-        });
-    }
+//    private void getAudioRecording() throws IOException {
+//        StorageReference voiceRef = storageRef.child(username).child("20210417_193914.3gp");
+//        File localFile = File.createTempFile("test_audio", "3gp");
+//        voiceRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                // Photo successfully downloaded
+//                // Display in corresponding imageview
+//                // Used TutorialsPoint to set image drawable
+//                player = new MediaPlayer();
+//                try {
+//                    player.setDataSource(String.valueOf(localFile));
+//                    player.prepare();
+//                    player.start();
+//                    Toast.makeText(getApplicationContext(), "Recording Playing", Toast.LENGTH_LONG).show();
+//                } catch (IOException e) {
+//                    Log.e("AUDIO", "prepare() for MediaPlayer failed in playRecording()");
+//                }
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                // TODO: figure out best way to handle errors
+//                Log.w("in play audio", e);
+//            }
+//        });
+//    }
 
     // Upload audio to cloud storage
     private void uploadRecording() {
@@ -279,7 +312,7 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     // Create voice entry and add to the database
     private void addVoiceEntryToDb() {
         try {
-            Entry voiceEntryObj = new Entry("VOICE", entryTimestamp, entryTimestamp + extension);
+            Entry voiceEntryObj = new Entry("VOICE", entryTimestamp, entryTimestamp + extension, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
             DatabaseReference usersRef = databaseRef.child("users");
@@ -289,6 +322,47 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
         } catch (ParseException e) {
             Log.w("VOICE", e);
         }
+    }
+
+    // Set onClicks for all mood buttons
+    private void setFeelingOnClicks() {
+        feeling1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling1;
+            }
+        });
+
+        feeling2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling2;
+            }
+        });
+        feeling3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling3;
+            }
+        });
+        feeling4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling4;
+            }
+        });
+        feeling5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling5;
+            }
+        });
+        feeling6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling6;
+            }
+        });
     }
 
 }

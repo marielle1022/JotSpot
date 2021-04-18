@@ -70,6 +70,27 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
     private String username;
     private String entryTimestamp;
 
+    // Variables storing feelings buttons
+    // Options: "NONE", "VERY HAPPY", "HAPPY", "NEUTRAL", "SLIGHTLY BUMMED", "SAD", "WEEPY"
+    private ImageButton feeling1; // VERY HAPPY
+    private ImageButton feeling2; // HAPPY
+    private ImageButton feeling3; // NEUTRAL
+    private ImageButton feeling4; // SLIGHTLY BUMMED
+    private ImageButton feeling5; // SAD
+    private ImageButton feeling6; // WEEPY
+
+    // Strings for feelings
+    private static final String strFeeling1 = "VERY HAPPY";
+    private static final String strFeeling2 = "HAPPY";
+    private static final String strFeeling3 = "NEUTRAL";
+    private static final String strFeeling4 = "SLIGHTLY BUMMED";
+    private static final String strFeeling5 = "SAD";
+    private static final String strFeeling6 = "WEEPY";
+    private static final String strFeeling0 = "NONE";
+
+    // Variables storing mood
+    private String mood;
+
     static final int MY_REQUEST_CODE = 1;
     static final int MY_PHOTO_REQUEST_CODE = 2;
     private String TAG = "EntryTag";
@@ -99,6 +120,12 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
 
         numPhotosThisEntry = 0;
         numPhotosLeftThisEntry = 0;
+
+        mood = strFeeling0;
+
+        getButtonViews();
+
+        setFeelingOnClicks();
 
         saveButton = (Button) findViewById(R.id.save_button_photo);
         discardButton = (Button) findViewById(R.id.discard_button_photo);
@@ -237,7 +264,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
     // Create photo entry and add to the database
     private void addPhotoEntryToDb() {
         try {
-            Entry photoEntryObj = new Entry("PHOTO", entryTimestamp, listImageFileNames);
+            Entry photoEntryObj = new Entry("PHOTO", entryTimestamp, listImageFileNames, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
             DatabaseReference usersRef = databaseRef.child("users");
@@ -275,6 +302,57 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         positiveButton.setTextColor(Color.RED);
         Button negativeButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
         negativeButton.setTextColor(Color.BLUE);
+    }
+
+    // Set the views for all buttons
+    private void getButtonViews() {
+        feeling1 = findViewById(R.id.feelingButton1);
+        feeling2 = findViewById(R.id.feelingButton2);
+        feeling3 = findViewById(R.id.feelingButton3);
+        feeling4 = findViewById(R.id.feelingButton4);
+        feeling5 = findViewById(R.id.feelingButton5);
+        feeling6 = findViewById(R.id.feelingButton6);
+    }
+
+    // Set onClicks for all mood buttons
+    private void setFeelingOnClicks() {
+        feeling1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling1;
+            }
+        });
+
+        feeling2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling2;
+            }
+        });
+        feeling3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling3;
+            }
+        });
+        feeling4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling4;
+            }
+        });
+        feeling5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling5;
+            }
+        });
+        feeling6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling6;
+            }
+        });
     }
 
 }

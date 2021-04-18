@@ -17,6 +17,10 @@ public class Entry {
     private EntryType etType;
     private String entryType;
 
+    // String representing mood
+    // Options: "NONE", "VERY HAPPY", "HAPPY", "NEUTRAL", "SLIGHTLY BUMMED", "SAD", "WEEPY"
+    private String mood;
+
     // Auto-generated timestamp
     private String timestamp;
     // Timestamp with "_" removed
@@ -55,7 +59,7 @@ public class Entry {
 //    }
 
     // Create entry object for text or voice entry
-    public Entry(String inType, String inTimestamp, String inEntry) throws ParseException {
+    public Entry(String inType, String inTimestamp, String inEntry, String inMood) throws ParseException {
         entryType = inType;
         if (inType == "VOICE") {
             voiceEntry = inEntry;
@@ -64,6 +68,7 @@ public class Entry {
         }
         timestamp = inTimestamp;
         dateTimeStr = convertTimestamp();
+        mood = inMood;
     }
 
 //    // Create entry object for photo entry
@@ -83,11 +88,12 @@ public class Entry {
 //    }
 
     // Create entry object for photo entry
-    public Entry(String inType, String inTimestamp, List<String> inPhotoEntry) throws ParseException {
+    public Entry(String inType, String inTimestamp, List<String> inPhotoEntry, String inMood) throws ParseException {
         entryType = inType;
         timestamp = inTimestamp;
         photoEntry = inPhotoEntry;
         dateTimeStr = convertTimestamp();
+        mood = inMood;
     }
 
     // TODO: getters/setters needed for everything
@@ -138,6 +144,14 @@ public class Entry {
 
     public void setDateTimeStr(String dateTimeStr) {
         this.dateTimeStr = dateTimeStr;
+    }
+
+    public String getMood() {
+        return mood;
+    }
+
+    public void setMood(String mood) {
+        this.mood = mood;
     }
 
 //    public Uri getVoiceEntry() {
