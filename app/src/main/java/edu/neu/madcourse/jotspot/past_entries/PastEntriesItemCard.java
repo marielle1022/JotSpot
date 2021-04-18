@@ -20,6 +20,8 @@ public class PastEntriesItemCard {
     private String pastPhoto1;
     private String pastPhoto2;
     private String pastPhoto3;
+    // Audio file path for past entry
+    private String voiceEntryPath;
 
     // TODO: set multiple different constructors?
 
@@ -47,6 +49,7 @@ public class PastEntriesItemCard {
                 }
                 break;
             case "VOICE":
+                voiceEntryPath = entry.getVoiceEntry();
                 break;
             default:
                 break;
@@ -72,6 +75,9 @@ public class PastEntriesItemCard {
     }
     public String getPastPhoto3() {
         return this.pastPhoto3;
+    }
+    public String getVoiceEntryPath() {
+        return this.voiceEntryPath;
     }
     public String getTimestamp() {
         return this.timestamp;

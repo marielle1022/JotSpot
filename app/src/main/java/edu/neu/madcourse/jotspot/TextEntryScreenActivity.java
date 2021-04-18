@@ -74,8 +74,7 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         discardTextEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                discard();
-                test();
+                discard();
             }
         });
 
