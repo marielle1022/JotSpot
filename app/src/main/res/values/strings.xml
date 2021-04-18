@@ -21,5 +21,6 @@
     <string name="feeling_slightly_bummed">Slightly Bummed</string>
     <string name="feeling_sad">Sad</string>
     <string name="feeling_weepy">Weepy</string>
+    <string name="track_your_mood">Track your mood?</string>
 
 </resources>
