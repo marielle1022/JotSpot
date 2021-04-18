@@ -15,4 +15,11 @@
     <string name="photo_entry3_default">Photo 3 for entry</string>
     <string name="users_path">users/%s</string>
 
+    <string name="feeling_very_happy">Very Happy</string>
+    <string name="feeling_happy">Happy</string>
+    <string name="feeling_neutral">Neutral</string>
+    <string name="feeling_slightly_bummed">Slightly Bummed</string>
+    <string name="feeling_sad">Sad</string>
+    <string name="feeling_weepy">Weepy</string>
+
 </resources>
