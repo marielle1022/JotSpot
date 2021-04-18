@@ -158,7 +158,6 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     private void createFilePath() {
         entryTimestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         fileName = getExternalFilesDir(Environment.DIRECTORY_MUSIC) + "/" + entryTimestamp + extension;
-        Log.w("AUDIO FILE", fileName);
     }
 
     // Start recording the audio. Call this on pressing the "record" button.
@@ -247,8 +246,6 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
 
     // Upload audio to cloud storage
     private void uploadRecording() {
-        Log.w("FILE NAME", fileName);
-        Toast.makeText(getApplicationContext(), fileName, Toast.LENGTH_LONG).show();
         StorageReference voiceReference =
                 storageRef.child(username).child(entryTimestamp + extension);
         Uri file = Uri.fromFile(new File(fileName));
