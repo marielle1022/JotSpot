@@ -23,4 +23,14 @@
     <string name="feeling_weepy">Weepy</string>
     <string name="track_your_mood">Track your mood?</string>
 
+    <string-array name="prompt_array">
+        <item>Choose a prompt!</item>
+        <item>What is your favorite thing to do on a rainy day?</item>
+        <item>If you could travel anywhere, where would you go?</item>
+        <item>What is one good thing that happened to you today?</item>
+        <item>What is one thing you would change about today?</item>
+        <item>Name a movie you enjoy and why (Or book, TV show, etc...)</item>
+        <item>What is one thing you want to learn how to do?</item>
+    </string-array>
+
 </resources>

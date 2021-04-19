@@ -39,13 +39,13 @@
         android:id="@+id/pastentries_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
         android:fontFamily="@font/rock_salt"
         android:text="Past Entries"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/one_sentence_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/jotspot_title"
-        android:background="@drawable/button_shape"/>
+        app:layout_constraintTop_toBottomOf="@+id/jotspot_title" />
 
     <Button
         android:id="@+id/resources_button"
@@ -85,6 +85,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/slightly_smiling_face_1f642"
         />
+
+    <Button
+        android:id="@+id/one_sentence_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
+        android:fontFamily="@font/rock_salt"
+        android:text="One-Sentence Prompt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pastentries_button" />
 
     <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
     <!--        android:id="@+id/mood_button"-->

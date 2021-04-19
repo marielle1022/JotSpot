@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_js_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JotSpot">
-        <activity android:name=".past_entries.PastEntriesActivity"></activity>
+        <activity android:name=".OneSentencePromptActivity"></activity>
+        <activity android:name=".past_entries.PastEntriesActivity" />
         <activity android:name=".PhotoEntryScreenActivity" />
         <activity android:name=".SettingsScreenActivity" />
         <activity
