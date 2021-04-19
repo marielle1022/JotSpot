@@ -13,6 +13,23 @@
     <string name="photo_entry1_default">Photo 1 for entry</string>
     <string name="photo_entry2_default">Photo 2 for entry</string>
     <string name="photo_entry3_default">Photo 3 for entry</string>
+    <string name="audio_play">Play Audio</string>
+    <string name="audio_stop">Stop Audio</string>
+    <string name="audio_pause">Pause Audio</string>
+    <string name="discard_photo_warning">Are you sure you want to discard this photo entry? This cannot be undone.</string>
+    <string name="discard_photo_yes">Yes, discard entry</string>
+    <string name="discard_photo_no">No, do not discard entry</string>
+
     <string name="users_path">users/%s</string>
+
+    <string name="feeling_very_happy">Very Happy</string>
+    <string name="feeling_happy">Happy</string>
+    <string name="feeling_neutral">Neutral</string>
+    <string name="feeling_slightly_bummed">Slightly Bummed</string>
+    <string name="feeling_sad">Sad</string>
+    <string name="feeling_weepy">Weepy</string>
+
+    <string name="timestamp_placeholder">Timestamp</string>
+    <string name="mood_history_descriptor">Emoji for Mood History</string>
 
 </resources>

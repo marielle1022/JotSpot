@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,11 +43,31 @@ public class TextEntryScreenActivity extends AppCompatActivity {
 
     EditText textEntryView;
 
-
     Button discardTextEntry;
     Button saveTextEntry;
 
     private String TAG = "EntryTag";
+
+    // Variables storing feelings buttons
+    // Options: "NONE", "VERY HAPPY", "HAPPY", "NEUTRAL", "SLIGHTLY BUMMED", "SAD", "WEEPY"
+    private ImageButton feeling1; // VERY HAPPY
+    private ImageButton feeling2; // HAPPY
+    private ImageButton feeling3; // NEUTRAL
+    private ImageButton feeling4; // SLIGHTLY BUMMED
+    private ImageButton feeling5; // SAD
+    private ImageButton feeling6; // WEEPY
+
+    // Strings for feelings
+    private static final String strFeeling1 = "VERY HAPPY";
+    private static final String strFeeling2 = "HAPPY";
+    private static final String strFeeling3 = "NEUTRAL";
+    private static final String strFeeling4 = "SLIGHTLY BUMMED";
+    private static final String strFeeling5 = "SAD";
+    private static final String strFeeling6 = "WEEPY";
+    private static final String strFeeling0 = "NONE";
+
+    // Variables storing mood
+    private String mood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +86,12 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         // TODO: set up actual user
         user = new User(username);
 
+        mood = strFeeling0;
+
+        getButtonViews();
+
+        setFeelingOnClicks();
+
         // TODO: need Firebase tokens?
 
         textEntryView = (EditText) findViewById(R.id.text_entry_box);
@@ -74,8 +101,7 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         discardTextEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                discard();
-                test();
+                discard();
             }
         });
 
@@ -125,7 +151,7 @@ public class TextEntryScreenActivity extends AppCompatActivity {
     private void addTextEntryToDb(String inTextEntry) {
         timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         try {
-            Entry textEntryObj = new Entry("TEXT", timestamp, inTextEntry);
+            Entry textEntryObj = new Entry("TEXT", timestamp, inTextEntry, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
             DatabaseReference usersRef = databaseRef.child("users");
@@ -143,28 +169,53 @@ public class TextEntryScreenActivity extends AppCompatActivity {
 //        usersRef.child(username).child(timestamp).setValue(textEntryObj);
     }
 
-    // TODO: Use this to get text entry from db
-    private void test() {
-        databaseRef.child("users").child(username).child(timestamp).addListenerForSingleValueEvent(new ValueEventListener() {
-            // Use snapshot to create Entry object
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Entry textEntry = snapshot.getValue(Entry.class);
-                    if (textEntry != null) {
-                        try {
-                            Log.w(TAG, textEntry.convertTimestamp());
-                        } catch (ParseException e) {
-                            Log.w(TAG, e);
-                        }
-                    }
-                } else {
-                    Log.w(TAG, "doesn't exist");
-                }
-            }
+    // Set the views for all buttons
+    private void getButtonViews() {
+        feeling1 = findViewById(R.id.feelingButton1);
+        feeling2 = findViewById(R.id.feelingButton2);
+        feeling3 = findViewById(R.id.feelingButton3);
+        feeling4 = findViewById(R.id.feelingButton4);
+        feeling5 = findViewById(R.id.feelingButton5);
+        feeling6 = findViewById(R.id.feelingButton6);
+    }
 
+    // Set onClicks for all mood buttons
+    private void setFeelingOnClicks() {
+        feeling1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onClick(View v) {
+                mood = strFeeling1;
+            }
+        });
+
+        feeling2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling2;
+            }
+        });
+        feeling3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling3;
+            }
+        });
+        feeling4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling4;
+            }
+        });
+        feeling5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling5;
+            }
+        });
+        feeling6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling6;
             }
         });
     }
