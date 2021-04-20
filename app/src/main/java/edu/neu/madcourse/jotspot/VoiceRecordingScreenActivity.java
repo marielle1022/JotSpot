@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -41,6 +42,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import edu.neu.madcourse.jotspot.firebase_helpers.Entry;
+import edu.neu.madcourse.jotspot.firebase_helpers.ThreadTaskHelper;
 
 public class VoiceRecordingScreenActivity extends AppCompatActivity {
 
@@ -151,7 +153,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
                     player.release();
                     player = null;
                 }
-                uploadRecording();
+                VoiceUploadTask task = new VoiceUploadTask();
+                task.execute();
             }
         });
 
@@ -282,6 +285,34 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
 //        });
 //    }
 
+//    // Upload audio to cloud storage
+//    private void uploadRecording() {
+//        StorageReference voiceReference =
+//                storageRef.child(username).child(entryTimestamp + extension);
+//        Uri file = Uri.fromFile(new File(fileName));
+//        UploadTask uploadTask = voiceReference.putFile(file);
+//        // Reference Firebase documentation on how to upload files
+//        // Register observers to listen for when the download is done or if it fails
+//        uploadTask.addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                // Handle unsuccessful uploads
+//                Toast.makeText(getApplicationContext(), "Voice entry not saved.", Toast.LENGTH_LONG).show();
+//            }
+//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+//                // ...
+//                // TODO: create voice entry object and upload to realtime db
+//                addVoiceEntryToDb();
+////                Log.w("upload", "upload success");
+//                Toast.makeText(getApplicationContext(), "Voice entry saved successfully.", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
+
+    // TODO: figure out another method of threading (AsyncTask, IntentService both deprecated -- maybe RxJava?)
     // Upload audio to cloud storage
     private void uploadRecording() {
         StorageReference voiceReference =
@@ -321,6 +352,16 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
             createFilePath();
         } catch (ParseException e) {
             Log.w("VOICE", e);
+        }
+    }
+
+    // Move voice "upload to storage and db" to a separate task
+    // AsyncTask<params, prgoress, results>
+    private class VoiceUploadTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            uploadRecording();
+            return null;
         }
     }
 

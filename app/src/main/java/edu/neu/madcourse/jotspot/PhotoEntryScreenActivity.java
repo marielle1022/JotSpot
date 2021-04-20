@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -19,6 +20,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.google.firebase.storage.FirebaseStorage;
@@ -32,11 +35,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,6 +51,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.neu.madcourse.jotspot.firebase_helpers.Entry;
+import edu.neu.madcourse.jotspot.firebase_helpers.ThreadTaskHelper;
 
 public class PhotoEntryScreenActivity extends AppCompatActivity {
 
@@ -157,7 +165,10 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                     for (int i = 0; i < listImageFileNames.size(); i++) {
                         StorageReference photoReference =
                                 storageRef.child(username).child(entryTimestamp).child(listImageFileNames.get(i) + ".jpg");
-                        uploadPhoto(photoReference, listPhotoUris.get(i));
+                        ThreadTaskHelper threadHelper = new ThreadTaskHelper(photoReference, listPhotoUris.get(i));
+//                        uploadPhoto(photoReference, listPhotoUris.get(i));
+                        PhotoUploadTask task = new PhotoUploadTask();
+                        task.execute(threadHelper);
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "There are no photos to save.", Toast.LENGTH_LONG).show();
@@ -228,6 +239,42 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         }
     }
 
+//    // Upload photo to cloud storage
+//    private void uploadPhoto(StorageReference photoRef, Uri photoUri) {
+//        // Reference Firebase documentation on how to upload files
+//        // Upload to cloud storage
+//        UploadTask uploadTask = photoRef.putFile(photoUri);
+//        // Register observers to listen for when the download is done or if it fails
+//        uploadTask.addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                // Handle unsuccessful uploads
+//            }
+//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+//                // ...
+//                // TODO: create photo entry object and upload to realtime db
+//                if (numPhotosLeftThisEntry == numPhotosThisEntry) {
+//                    addPhotoEntryToDb();
+//                }
+//                numPhotosLeftThisEntry -= 1;
+//                if (numPhotosLeftThisEntry == 0) {
+//                    // Reset timestamp, list of photo file names, and list of photo file uris
+//                    entryTimestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//                    listImageFileNames = new ArrayList<>();
+//                    listPhotoUris = new ArrayList<>();
+//                }
+//                Log.w("upload", "upload success");
+//                Toast.makeText(getApplicationContext(), "Photo entry saved successfully.", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
+
+
+
+    // TODO: figure out another method of threading (AsyncTask, IntentService both deprecated -- maybe RxJava?)
     // Upload photo to cloud storage
     private void uploadPhoto(StorageReference photoRef, Uri photoUri) {
         // Reference Firebase documentation on how to upload files
@@ -353,6 +400,17 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 mood = strFeeling6;
             }
         });
+    }
+
+    // Move photo "upload to storage and db" to a separate task
+    // AsyncTask<params, prgoress, results>
+    private class PhotoUploadTask extends AsyncTask<ThreadTaskHelper, Void, Void> {
+        @Override
+        protected Void doInBackground(ThreadTaskHelper... threadTaskHelpers) {
+            ThreadTaskHelper helper = threadTaskHelpers[0];
+            uploadPhoto(helper.getStorageReference(), helper.getUri());
+            return null;
+        }
     }
 
 }
