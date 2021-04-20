@@ -17,8 +17,8 @@
 
     <ImageButton
         android:id="@+id/record_button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:background="@drawable/button_shape"
         android:backgroundTint="#717D7F"
         app:layout_constraintBottom_toTopOf="@id/stop_button"
@@ -29,11 +29,12 @@
 
     <ImageButton
         android:id="@+id/play_button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/button_shape"
         android:backgroundTint="#717D7F"
-        app:layout_constraintBottom_toTopOf="@id/mood_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,8 +43,8 @@
 
     <ImageButton
         android:id="@+id/stop_button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:background="@drawable/button_shape"
         android:backgroundTint="#717D7F"
         app:layout_constraintBottom_toTopOf="@id/play_button"
@@ -52,6 +53,99 @@
         app:layout_constraintTop_toBottomOf="@id/record_button"
         app:srcCompat="@android:drawable/picture_frame"
         tools:layout_constraintTop_toBottomOf="@id/record_button" />
+
+    <ImageButton
+        android:id="@+id/feelingButton1"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_very_happy"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/feelingButton2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/play_button"
+        app:srcCompat="@drawable/grinning_face_1f600" />
+
+    <ImageButton
+        android:id="@+id/feelingButton2"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_happy"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/feelingButton3"
+        app:layout_constraintStart_toEndOf="@id/feelingButton1"
+        app:layout_constraintTop_toBottomOf="@+id/play_button"
+        app:srcCompat="@drawable/slightly_smiling" />
+
+    <ImageButton
+        android:id="@+id/feelingButton3"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_neutral"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/feelingButton4"
+        app:layout_constraintStart_toEndOf="@id/feelingButton2"
+        app:layout_constraintTop_toBottomOf="@+id/play_button"
+        app:srcCompat="@drawable/neutral_face_1f610" />
+
+    <ImageButton
+        android:id="@+id/feelingButton4"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_slightly_bummed"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/feelingButton5"
+        app:layout_constraintStart_toEndOf="@id/feelingButton3"
+        app:layout_constraintTop_toBottomOf="@+id/play_button"
+        app:srcCompat="@drawable/confused_face_1f615" />
+
+    <ImageButton
+        android:id="@+id/feelingButton5"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_sad"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/feelingButton6"
+        app:layout_constraintStart_toEndOf="@id/feelingButton4"
+        app:layout_constraintTop_toBottomOf="@+id/play_button"
+        app:srcCompat="@drawable/frowning_face_2639_fe0f" />
+
+    <ImageButton
+        android:id="@+id/feelingButton6"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="150dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_weepy"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/feelingButton5"
+        app:layout_constraintTop_toBottomOf="@+id/play_button"
+        app:srcCompat="@drawable/downcast_face_with_sweat_1f613" />
 
     <Button
         android:id="@+id/save_voice_button"
@@ -72,85 +166,20 @@
         app:layout_constraintEnd_toStartOf="@+id/save_voice_button"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/mood_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/play_button">
-
-        <ImageButton
-            android:id="@+id/feelingButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_very_happy"
-            app:srcCompat="@drawable/grinning_face_1f600" />
-
-        <ImageButton
-            android:id="@+id/feelingButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_happy"
-            app:srcCompat="@drawable/slightly_smiling" />
-
-        <ImageButton
-            android:id="@+id/feelingButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_neutral"
-            app:srcCompat="@drawable/neutral_face_1f610" />
-
-        <ImageButton
-            android:id="@+id/feelingButton4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_slightly_bummed"
-            app:srcCompat="@drawable/confused_face_1f615" />
-
-        <ImageButton
-            android:id="@+id/feelingButton5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_sad"
-            app:srcCompat="@drawable/frowning_face_2639_fe0f" />
-
-        <ImageButton
-            android:id="@+id/feelingButton6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_weepy"
-            app:srcCompat="@drawable/downcast_face_with_sweat_1f613" />
-    </LinearLayout>
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="75dp" />
+        app:layout_constraintGuide_end="15dp" />
+
+    <TextView
+        android:id="@+id/recording_track_your_mood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/track_your_mood"
+        app:layout_constraintBottom_toTopOf="@+id/feelingButton1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/play_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
