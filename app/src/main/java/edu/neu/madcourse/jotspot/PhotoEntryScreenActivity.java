@@ -404,6 +404,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
 
     // Move photo "upload to storage and db" to a separate task
     // AsyncTask<params, prgoress, results>
+    // TODO: add progress marker?
     private class PhotoUploadTask extends AsyncTask<ThreadTaskHelper, Void, Void> {
         @Override
         protected Void doInBackground(ThreadTaskHelper... threadTaskHelpers) {

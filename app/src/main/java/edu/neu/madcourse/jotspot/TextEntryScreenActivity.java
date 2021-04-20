@@ -8,12 +8,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +29,7 @@ import java.util.Date;
 
 import edu.neu.madcourse.jotspot.firebase_helpers.Entry;
 import edu.neu.madcourse.jotspot.firebase_helpers.EntryType;
+import edu.neu.madcourse.jotspot.firebase_helpers.ThreadTaskHelper;
 import edu.neu.madcourse.jotspot.firebase_helpers.User;
 
 
@@ -143,8 +146,9 @@ public class TextEntryScreenActivity extends AppCompatActivity {
     // Save the text entry
     private void saveTextEntry() {
         String textForEntry = textEntryView.getText().toString();
-        addTextEntryToDb(textForEntry);
-        Log.v("TEST", "did this get added to db?");
+        TextDbTask task = new TextDbTask();
+        task.execute(textForEntry);
+        Toast.makeText(getApplicationContext(), "Text entry saved successfully.", Toast.LENGTH_LONG).show();
     }
 
     // Create text entry and add to the database
@@ -167,6 +171,17 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         // Use push() to set unique key
 //        usersRef.child(username).push().setValue(inTextEntry);
 //        usersRef.child(username).child(timestamp).setValue(textEntryObj);
+    }
+
+    // Move text "upload to db" to a separate task
+    // AsyncTask<params, progress, results>
+    private class TextDbTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... strings) {
+            String text = strings[0];
+            addTextEntryToDb(text);
+            return null;
+        }
     }
 
     // Set the views for all buttons
