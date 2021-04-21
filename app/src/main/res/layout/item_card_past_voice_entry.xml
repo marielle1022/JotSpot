@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    app:cardCornerRadius="5dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/voice_date_time_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:hint="@string/date_time_default" />
+
+        <ImageButton
+            android:id="@+id/ic_play_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button_shape"
+            android:backgroundTint="#717D7F"
+            android:layout_below="@id/voice_date_time_view"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:hint="@string/audio_play"
+            app:srcCompat="@android:drawable/ic_media_play"/>
+
+        <ImageButton
+            android:id="@+id/ic_stop_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button_shape"
+            android:backgroundTint="#717D7F"
+            android:layout_below="@id/voice_date_time_view"
+            android:layout_toEndOf="@+id/ic_play_button"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:hint="@string/audio_stop"
+            app:srcCompat="@android:drawable/picture_frame"/>
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

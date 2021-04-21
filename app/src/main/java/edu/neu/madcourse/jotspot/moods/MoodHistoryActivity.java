@@ -1,4 +1,4 @@
-package edu.neu.madcourse.jotspot.past_entries;
+package edu.neu.madcourse.jotspot.moods;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,24 +18,27 @@ import java.util.ArrayList;
 
 import edu.neu.madcourse.jotspot.R;
 import edu.neu.madcourse.jotspot.firebase_helpers.Entry;
+import edu.neu.madcourse.jotspot.firebase_helpers.User;
+import edu.neu.madcourse.jotspot.past_entries.PastEntriesItemCard;
+import edu.neu.madcourse.jotspot.past_entries.PastEntriesRecyclerAdapter;
 
-public class PastEntriesActivity extends AppCompatActivity {
+public class MoodHistoryActivity extends AppCompatActivity {
 
     // RecyclerView components
-    private RecyclerView pastEntriesRecyclerView;
-    private PastEntriesRecyclerAdapter pastEntriesAdapter;
-    private RecyclerView.LayoutManager pastEntriesLayoutManager;
+    private RecyclerView moodHistRecyclerView;
+    private MoodHistRecyclerAdapter moodHistAdapter;
+    private RecyclerView.LayoutManager moodHistLayoutManager;
 
-    // List of past entry items
-    private ArrayList<PastEntriesItemCard> entriesList = new ArrayList<>();
+    // List of link items
+    private ArrayList<MoodHistRecyclerItemCard> moodList = new ArrayList<>();
 
-    // Current username
+    // Current user
     private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_past_entries);
+        setContentView(R.layout.activity_mood_history);
 
         username = "testUser";
 
@@ -46,11 +49,11 @@ public class PastEntriesActivity extends AppCompatActivity {
     // Note: adapted from the StickItToEm assignment RecyclerView, which Marielle wrote
     private void createRecyclerView() {
         // Create layout for RecyclerView
-        pastEntriesLayoutManager = new LinearLayoutManager(this);
-        pastEntriesRecyclerView = findViewById(R.id.past_entries_recycler_view);
+        moodHistLayoutManager = new LinearLayoutManager(this);
+        moodHistRecyclerView = findViewById(R.id.mood_hist_recyclerview);
         // Setting fixed size means items won't change size
         // Don't need to do recalculations
-        pastEntriesRecyclerView.setHasFixedSize(true);
+        moodHistRecyclerView.setHasFixedSize(true);
         // Retrieve data from database and add it to the list
         // Note: references Unique Andro Code in how to retrieve data from firebase
         // Set up database reference pointing to Received messages under the current user
@@ -69,17 +72,21 @@ public class PastEntriesActivity extends AppCompatActivity {
                         Entry newEntry = childSnapshot.getValue(Entry.class);
                         // Create an item card from the entry object
                         if (newEntry != null) {
-                            PastEntriesItemCard itemCard = new PastEntriesItemCard(newEntry);
-                            // Add the item card to the list
-                            entriesList.add(itemCard);
+                            if (!newEntry.getMood().toUpperCase().equals("NONE")) {
+                                MoodHistRecyclerItemCard itemCard = new
+                                        MoodHistRecyclerItemCard(newEntry.getDateTimeStr(),
+                                        newEntry.getMood());
+                                // Add the item card to the list
+                                moodList.add(itemCard);
+                            }
                         }
                     }
                     // Create adapter from list of items (created inside if statement)
-                    pastEntriesAdapter = new PastEntriesRecyclerAdapter(entriesList);
+                    moodHistAdapter = new MoodHistRecyclerAdapter(moodList);
                     // Set recycler view using adapter
-                    pastEntriesRecyclerView.setAdapter(pastEntriesAdapter);
+                    moodHistRecyclerView.setAdapter(moodHistAdapter);
                     // Set layout manager
-                    pastEntriesRecyclerView.setLayoutManager(pastEntriesLayoutManager);
+                    moodHistRecyclerView.setLayoutManager(moodHistLayoutManager);
                 } else {
                     Log.w("recycler", "in createRecyclerView, snapshot doesn't exist");
                 }
@@ -91,7 +98,28 @@ public class PastEntriesActivity extends AppCompatActivity {
             }
         });
     }
+
+
+//        // Create adapter from list of items
+//        msgHistAdapter = new MsgHistoryRecyclerAdapter(msgList);
+
+        // Create item click listener
+//        MsgHistoryRecyclerListener itemClickListener = new MsgHistoryRecyclerListener() {
+//            @Override
+//            public void onItemClick(int listPosition) {
+//                linkList.get(listPosition).onItemClick(listPosition);
+//                msgHistAdapter.notifyItemChanged(listPosition);
+//            }
+//        };
+
+        // Set item click listener for adapter
+//        msgHistAdapter.setOnItemClickListener(itemClickListener);
+
+//        // Set recycler view using adapter
+//        msgHistRecyclerView.setAdapter(msgHistAdapter);
+//        // Set layout manager
+//        msgHistRecyclerView.setLayoutManager(msgHistLayoutManager);
 }
 
-// Note: this was adapted from Marielle's previous assignment, which referenced the sample code
-// provided in class.
+// Note: this was adapted from a portion of a previous assignment written by Marielle, which
+// referenced the sample code provided in class.
