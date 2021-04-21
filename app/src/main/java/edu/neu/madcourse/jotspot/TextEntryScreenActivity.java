@@ -3,12 +3,13 @@ package edu.neu.madcourse.jotspot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,8 +29,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.neu.madcourse.jotspot.firebase_helpers.Entry;
+
 import edu.neu.madcourse.jotspot.firebase_helpers.EntryType;
 import edu.neu.madcourse.jotspot.firebase_helpers.ThreadTaskHelper;
+
 import edu.neu.madcourse.jotspot.firebase_helpers.User;
 
 
@@ -97,7 +100,7 @@ public class TextEntryScreenActivity extends AppCompatActivity {
 
         // TODO: need Firebase tokens?
 
-        textEntryView = (EditText) findViewById(R.id.text_entry_box);
+        textEntryView = (EditText) findViewById(R.id.one_sentence_entry);
 
         discardTextEntry = (Button) findViewById(R.id.discard_text_button);
 
