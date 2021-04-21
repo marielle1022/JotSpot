@@ -41,6 +41,10 @@ public class Entry {
 //    private Uri voiceEntry;
     // Cloud Storage filepath for voice recording for an entry
     private String voiceEntry;
+    // Text for prompt
+    private String prompt;
+    // Text for one-sentence entry
+    private String sentenceEntry;
 
     // Empty (default) constructor needed for calls to DataSnapshot.getValue
     public Entry() {}
@@ -61,7 +65,7 @@ public class Entry {
     // Create entry object for text or voice entry
     public Entry(String inType, String inTimestamp, String inEntry, String inMood) throws ParseException {
         entryType = inType;
-        if (inType == "VOICE") {
+        if (inType.equals("VOICE")) {
             voiceEntry = inEntry;
         } else {
             textEntry = inEntry;
@@ -71,21 +75,14 @@ public class Entry {
         mood = inMood;
     }
 
-//    // Create entry object for photo entry
-//    public Entry(String inType, String inTimestamp, List<String> inPhotoEntry) {
-//        entryType = inType;
-//        timestamp = inTimestamp;
-//        photoEntry = inPhotoEntry;
-//    }
-
-    // TODO: use toString for EntryType to string?
-//    // Create entry object for photo entry
-//    public Entry(EntryType inType, String inTimestamp, List<String> inPhotoEntry) {
-//        etType = inType;
-//        entryType = "PHOTO";
-//        timestamp = inTimestamp;
-//        photoEntry = inPhotoEntry;
-//    }
+    // Create entry object for one-sentence prompt
+    public Entry(String inType, String inTimestamp, String inPrompt, String inEntry) throws ParseException {
+        entryType = inType;
+        prompt = inPrompt;
+        sentenceEntry = inEntry;
+        timestamp = inTimestamp;
+        dateTimeStr = convertTimestamp();
+    }
 
     // Create entry object for photo entry
     public Entry(String inType, String inTimestamp, List<String> inPhotoEntry, String inMood) throws ParseException {
@@ -120,6 +117,22 @@ public class Entry {
 
     public void setTextEntry(String textEntry) {
         this.textEntry = textEntry;
+    }
+
+    public String getSentenceEntry() {
+        return sentenceEntry;
+    }
+
+    public void setSentenceEntry(String sentenceEntry) {
+        this.sentenceEntry = sentenceEntry;
+    }
+
+    public String getPrompt() {
+        return prompt;
+    }
+
+    public void setPrompt(String prompt) {
+        this.prompt = prompt;
     }
 
     public List<String> getPhotoEntry() {
