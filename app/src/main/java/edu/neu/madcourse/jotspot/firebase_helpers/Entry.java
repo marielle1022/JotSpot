@@ -76,7 +76,7 @@ public class Entry {
     }
 
     // Create entry object for one-sentence prompt
-    public Entry(String inType, String inTimestamp, String inPrompt, String inEntry) throws ParseException {
+    public Entry(String inType, String inTimestamp, String inPrompt, String inEntry, String inMood) throws ParseException {
         entryType = inType;
         prompt = inPrompt;
         sentenceEntry = inEntry;

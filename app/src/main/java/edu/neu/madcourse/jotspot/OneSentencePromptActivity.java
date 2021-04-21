@@ -128,7 +128,7 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
     private void addSentenceEntryToDb(String inSentenceEntry) {
         timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         try {
-            Entry sentenceEntryObj = new Entry("SENTENCE", timestamp, prompt, inSentenceEntry);
+            Entry sentenceEntryObj = new Entry("SENTENCE", timestamp, prompt, inSentenceEntry, MOOD);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
             DatabaseReference usersRef = databaseRef.child("users");
