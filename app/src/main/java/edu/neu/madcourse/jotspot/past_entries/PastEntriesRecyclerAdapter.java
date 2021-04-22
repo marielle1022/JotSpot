@@ -63,9 +63,12 @@ public class PastEntriesRecyclerAdapter extends RecyclerView.Adapter<PastEntries
             case "PHOTO":
                 viewType = 1;
                 break;
-            default:
-                // Use TEXT as default
+            case "TEXT":
                 viewType = 2;
+                break;
+            default:
+            // Use SENTENCE as default
+                viewType = 3;
                 break;
         }
         return viewType;
@@ -76,7 +79,7 @@ public class PastEntriesRecyclerAdapter extends RecyclerView.Adapter<PastEntries
     public PastEntriesRecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // TODO: use if statement to determine which item_card.xml to use
         View icView;
-        // Create item card based on viewType (0 is voice, 1 is photo, 2 is text);
+        // Create item card based on viewType (0 is voice, 1 is photo, 2 is text, 3 is sentence);
         switch (viewType) {
             case 0:
                 icView =
@@ -88,11 +91,15 @@ public class PastEntriesRecyclerAdapter extends RecyclerView.Adapter<PastEntries
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_past_photo_entry,
                                 parent, false);
                 break;
-            default:
+            case 2:
                 icView =
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_past_text_entry,
                                 parent, false);
                 break;
+            default:
+                icView =
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_past_sentence_entry,
+                                parent, false);
         }
         // Create new ViewHolder from item card view and LCItemClickListener
         return new PastEntriesRecyclerHolder(icView, listener);
@@ -155,14 +162,24 @@ public class PastEntriesRecyclerAdapter extends RecyclerView.Adapter<PastEntries
                     }
                 }
                 break;
-            default:
-                // Use "TEXT" as default
+            case "TEXT":
                 holder.textEntryDateTime.setText(currentItem.getFormattedDateTime());
                 String savedText = currentItem.getPastTextEntry();
                 if (savedText != null) {
                     holder.textEntryView.setText(savedText);
                 }
                 break;
+            default:
+                // Use "SENTENCE" as default
+                holder.sentenceEntryDateTime.setText(currentItem.getFormattedDateTime());
+                String savedPrompt = currentItem.getPrompt();
+                if (savedPrompt != null) {
+                    holder.sentencePromptView.setText(holder.itemView.getContext().getString(R.string.prompt_listing, savedPrompt));
+                }
+                String savedSentence = currentItem.getPastSentenceEntry();
+                if (savedSentence != null) {
+                    holder.sentenceEntryView.setText(savedSentence);
+                }
         }
         // Example: friendName is a public field in the holder
         // holder.friendName.setText("text");

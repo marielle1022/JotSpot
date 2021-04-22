@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -44,6 +46,27 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
     Button discardSentenceButton;
     Button saveSentenceButton;
 
+    // Variables storing feelings buttons
+    // Options: "NONE", "VERY HAPPY", "HAPPY", "NEUTRAL", "SLIGHTLY BUMMED", "SAD", "WEEPY"
+    private ImageButton feeling1; // VERY HAPPY
+    private ImageButton feeling2; // HAPPY
+    private ImageButton feeling3; // NEUTRAL
+    private ImageButton feeling4; // SLIGHTLY BUMMED
+    private ImageButton feeling5; // SAD
+    private ImageButton feeling6; // WEEPY
+
+    // Strings for feelings
+    private static final String strFeeling1 = "VERY HAPPY";
+    private static final String strFeeling2 = "HAPPY";
+    private static final String strFeeling3 = "NEUTRAL";
+    private static final String strFeeling4 = "SLIGHTLY BUMMED";
+    private static final String strFeeling5 = "SAD";
+    private static final String strFeeling6 = "WEEPY";
+    private static final String strFeeling0 = "NONE";
+
+    // Variables storing mood
+    private String mood;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +91,13 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
 
         // TODO: need Firebase tokens?
 
-        sentenceEntryView = (EditText) findViewById(R.id.text_entry_box);
+        mood = strFeeling0;
+
+        getButtonViews();
+
+        setFeelingOnClicks();
+
+        sentenceEntryView = (EditText) findViewById(R.id.one_sentence_entry);
 
         discardSentenceButton = (Button) findViewById(R.id.sentence_discard_button);
 
@@ -114,21 +143,45 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
 
     // Save the sentence entry
     private void saveSentenceEntry() {
-        String sentenceForEntry = sentenceEntryView.getText().toString();
-        if (prompt != null) {
-            addSentenceEntryToDb(sentenceForEntry);
-        } else {
-            Toast toast = Toast.makeText(getApplicationContext(), "Please choose a prompt.", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm save");
+        builder.setMessage("Are you sure you are finished with this entry?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                String sentenceForEntry = sentenceEntryView.getText().toString();
+                if (prompt != null) {
+                    SentenceDbTask task = new SentenceDbTask();
+                    task.execute(sentenceForEntry);
+                    sentenceEntryView.setText("..");
+                    Toast toast = Toast.makeText(getApplicationContext(), "Entry saved successfully.", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please choose a prompt.", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }
+                finish();
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create();
+        builder.show();
     }
 
     // Create sentence entry and add to the database
     private void addSentenceEntryToDb(String inSentenceEntry) {
         timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         try {
-            Entry sentenceEntryObj = new Entry("SENTENCE", timestamp, prompt, inSentenceEntry, MOOD);
+            Entry sentenceEntryObj = new Entry("SENTENCE", timestamp, prompt, inSentenceEntry, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
             DatabaseReference usersRef = databaseRef.child("users");
@@ -153,5 +206,67 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    // Move sentence "upload to db" to a separate task
+    // AsyncTask<params, progress, results>
+    private class SentenceDbTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... strings) {
+            String text = strings[0];
+            addSentenceEntryToDb(text);
+            return null;
+        }
+    }
+
+    // Set the views for all buttons
+    private void getButtonViews() {
+        feeling1 = findViewById(R.id.feelingButton1);
+        feeling2 = findViewById(R.id.feelingButton2);
+        feeling3 = findViewById(R.id.feelingButton3);
+        feeling4 = findViewById(R.id.feelingButton4);
+        feeling5 = findViewById(R.id.feelingButton5);
+        feeling6 = findViewById(R.id.feelingButton6);
+    }
+
+    // Set onClicks for all mood buttons
+    private void setFeelingOnClicks() {
+        feeling1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling1;
+            }
+        });
+
+        feeling2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling2;
+            }
+        });
+        feeling3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling3;
+            }
+        });
+        feeling4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling4;
+            }
+        });
+        feeling5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling5;
+            }
+        });
+        feeling6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mood = strFeeling6;
+            }
+        });
     }
 }

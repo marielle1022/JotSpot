@@ -257,6 +257,19 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (recorder != null) {
+            recorder.release();
+            recorder = null;
+        }
+        if (player != null) {
+            player.release();
+            player = null;
+        }
+    }
+
 //    private void getAudioRecording() throws IOException {
 //        StorageReference voiceRef = storageRef.child(username).child("20210417_193914.3gp");
 //        File localFile = File.createTempFile("test_audio", "3gp");

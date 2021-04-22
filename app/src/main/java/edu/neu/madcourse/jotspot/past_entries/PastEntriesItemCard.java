@@ -16,6 +16,10 @@ public class PastEntriesItemCard {
     private String timestamp;
     // Text entry
     private String pastTextEntry;
+    // Sentence entry
+    private String pastSentenceEntry;
+    // Prompt for sentence entry
+    private String prompt;
     // Photo file path for past entry
     private String pastPhoto1;
     private String pastPhoto2;
@@ -51,6 +55,10 @@ public class PastEntriesItemCard {
             case "VOICE":
                 voiceEntryPath = entry.getVoiceEntry();
                 break;
+            case "SENTENCE":
+                this.pastSentenceEntry = entry.getSentenceEntry();
+                this.prompt = entry.getPrompt();
+                break;
             default:
                 break;
         }
@@ -66,6 +74,12 @@ public class PastEntriesItemCard {
     }
     public String getPastTextEntry() {
         return this.pastTextEntry;
+    }
+    public String getPastSentenceEntry() {
+        return this.pastSentenceEntry;
+    }
+    public String getPrompt() {
+        return this.prompt;
     }
     public String getPastPhoto1() {
         return this.pastPhoto1;

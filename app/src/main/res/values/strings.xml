@@ -45,4 +45,6 @@
     <string name="timestamp_placeholder">Timestamp</string>
     <string name="mood_history_descriptor">Emoji for Mood History</string>
 
+    <string name="prompt_listing">Prompt: %s</string>
+
 </resources>
