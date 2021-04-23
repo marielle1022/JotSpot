@@ -21,12 +21,12 @@
             android:textColor="#FFFFFF"
             android:textSize="32sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/scheduleTimePicker"
+            app:layout_constraintBottom_toTopOf="@id/reminderTimePicker"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <DatePicker
-            android:id="@+id/scheduleTimePicker"
+            android:id="@+id/reminderTimePicker"
             android:layout_width="356dp"
             android:layout_height="399dp"
             android:layout_marginTop="16dp"
@@ -48,7 +48,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.452"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/scheduleTimePicker" />
+            app:layout_constraintTop_toBottomOf="@id/reminderTimePicker" />
 
 
         <Button
