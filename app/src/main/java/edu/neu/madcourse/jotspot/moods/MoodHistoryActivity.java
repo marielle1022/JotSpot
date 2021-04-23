@@ -72,7 +72,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                         Entry newEntry = childSnapshot.getValue(Entry.class);
                         // Create an item card from the entry object
                         if (newEntry != null) {
-                            if (!newEntry.getMood().toUpperCase().equals("NONE")) {
+                            if (newEntry.getMood() != null && !newEntry.getMood().toUpperCase().equals("NONE")) {
                                 MoodHistRecyclerItemCard itemCard = new
                                         MoodHistRecyclerItemCard(newEntry.getDateTimeStr(),
                                         newEntry.getMood());
