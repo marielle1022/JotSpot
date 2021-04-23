@@ -16,6 +16,7 @@ public class PastEntriesRecyclerHolder extends RecyclerView.ViewHolder {
     public TextView textEntryDateTime;
     public TextView photoEntryDateTime;
     public TextView voiceEntryDateTime;
+    public TextView sentenceEntryDateTime;
     // Text Entry text view
     public TextView textEntryView;
     // Photo Entry photo views
@@ -25,6 +26,9 @@ public class PastEntriesRecyclerHolder extends RecyclerView.ViewHolder {
     // Voice Entry view
     public ImageButton voiceEntryPlayButton;
     public ImageButton voiceEntryStopButton;
+    // Sentence entry view
+    public TextView sentenceEntryView;
+    public TextView sentencePromptView;
 
     public PastEntriesRecyclerHolder(View itemCardView, final PastEntriesRecyclerListener listener) {
         // Note: MUST call super first
@@ -34,6 +38,7 @@ public class PastEntriesRecyclerHolder extends RecyclerView.ViewHolder {
         textEntryDateTime = itemCardView.findViewById(R.id.text_date_time_view);
         photoEntryDateTime = itemCardView.findViewById(R.id.photo_date_time_view);
         voiceEntryDateTime = itemCardView.findViewById(R.id.voice_date_time_view);
+        sentenceEntryDateTime = itemCardView.findViewById(R.id.sentence_date_time_view);
 
         textEntryView = itemCardView.findViewById(R.id.text_entry_view);
 
@@ -44,24 +49,27 @@ public class PastEntriesRecyclerHolder extends RecyclerView.ViewHolder {
         voiceEntryPlayButton = itemCardView.findViewById(R.id.ic_play_button);
         voiceEntryStopButton = itemCardView.findViewById(R.id.ic_stop_button);
 
+        sentencePromptView = itemCardView.findViewById(R.id.sentence_prompt);
+        sentenceEntryView = itemCardView.findViewById(R.id.sentence_entry_view);
+
 
         // Set up listeners
 
         // Click on item
-//        histCardItemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (listener != null) {
-//                    // Check to see what item this is in the list (based on location, size)
-//                    int list_position = getLayoutPosition();
-//                    // If you get NO_POSITION, it means calculations haven't happened yet
-//                    // Very rare, just ignore this
-//                    if (list_position != RecyclerView.NO_POSITION) {
-//                        listener.onItemClick(list_position);
-//                    }
-//                }
-//            }
-//        });
+        itemCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    // Check to see what item this is in the list (based on location, size)
+                    int list_position = getLayoutPosition();
+                    // If you get NO_POSITION, it means calculations haven't happened yet
+                    // Very rare, just ignore this
+                    if (list_position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(list_position);
+                    }
+                }
+            }
+        });
     }
 }
 

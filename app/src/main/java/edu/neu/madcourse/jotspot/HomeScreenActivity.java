@@ -23,6 +23,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     // Button variables
     private Button createButton;
     private Button pastEntriesButton;
+    private Button oneSentencePromptButton;
     private Button resourcesButton;
     private FloatingActionButton settingsButton;
     private ImageButton moodButton;
@@ -35,6 +36,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         createButton = (Button) findViewById(R.id.create_button);
         pastEntriesButton = (Button) findViewById(R.id.pastentries_button);
+        oneSentencePromptButton = (Button) findViewById(R.id.one_sentence_button);
         resourcesButton = (Button) findViewById(R.id.resources_button);
         settingsButton = (FloatingActionButton) findViewById(R.id.settings_button);
         moodButton = (ImageButton) findViewById(R.id.mood_button);
@@ -74,6 +76,12 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
 
+        oneSentencePromptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToOneSentencePrompt();
+            }
+        });
     }
 
     private void createEntry() {
@@ -103,8 +111,14 @@ public class HomeScreenActivity extends AppCompatActivity {
         HomeScreenActivity.this.startActivity(pastEntriesIntent);
     }
 
+
     private void viewMoodHistory() {
         Intent moodHistoryIntent = new Intent(HomeScreenActivity.this, MoodHistoryActivity.class);
         HomeScreenActivity.this.startActivity(moodHistoryIntent);
+    }
+
+    private void goToOneSentencePrompt() {
+        Intent oneSentenceIntent = new Intent(HomeScreenActivity.this, OneSentencePromptActivity.class);
+        HomeScreenActivity.this.startActivity(oneSentenceIntent);
     }
 }

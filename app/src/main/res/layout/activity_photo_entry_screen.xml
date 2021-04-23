@@ -7,6 +7,98 @@
     android:background="@drawable/soft_abstract_background_in_light_colors_vector_21474540"
     tools:context=".PhotoEntryScreenActivity">
 
+    <ImageButton
+        android:id="@+id/feelingButton1"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_very_happy"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@id/feelingButton2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photo_preview_placeholder"
+        app:srcCompat="@drawable/grinning_face_1f600" />
+
+    <ImageButton
+        android:id="@+id/feelingButton2"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_happy"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/feelingButton3"
+        app:layout_constraintStart_toEndOf="@id/feelingButton1"
+        app:layout_constraintTop_toBottomOf="@+id/photo_preview_placeholder"
+        app:srcCompat="@drawable/slightly_smiling" />
+
+    <ImageButton
+        android:id="@+id/feelingButton3"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_neutral"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/feelingButton4"
+        app:layout_constraintStart_toEndOf="@id/feelingButton2"
+        app:layout_constraintTop_toBottomOf="@+id/photo_preview_placeholder"
+        app:srcCompat="@drawable/neutral_face_1f610" />
+
+    <ImageButton
+        android:id="@+id/feelingButton4"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_slightly_bummed"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/feelingButton5"
+        app:layout_constraintStart_toEndOf="@id/feelingButton3"
+        app:layout_constraintTop_toBottomOf="@+id/photo_preview_placeholder"
+        app:srcCompat="@drawable/confused_face_1f615" />
+
+    <ImageButton
+        android:id="@+id/feelingButton5"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_sad"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/feelingButton6"
+        app:layout_constraintStart_toEndOf="@id/feelingButton4"
+        app:layout_constraintTop_toBottomOf="@+id/photo_preview_placeholder"
+        app:srcCompat="@drawable/frowning_face_2639_fe0f" />
+
+    <ImageButton
+        android:id="@+id/feelingButton6"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="150dp"
+        android:layout_weight="1"
+        android:adjustViewBounds="true"
+        android:background="@drawable/button_shape"
+        android:contentDescription="@string/feeling_weepy"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/feelingButton5"
+        app:layout_constraintTop_toBottomOf="@+id/photo_preview_placeholder"
+        app:srcCompat="@drawable/downcast_face_with_sweat_1f613" />
+
     <Button
         android:id="@+id/save_button_photo"
         android:layout_width="wrap_content"
@@ -51,84 +143,32 @@
         app:layout_constraintTop_toBottomOf="@+id/camera_device_button"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/guideline">
-
-        <ImageButton
-            android:id="@+id/feelingButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_very_happy"
-            app:srcCompat="@drawable/grinning_face_1f600" />
-
-        <ImageButton
-            android:id="@+id/feelingButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_happy"
-            app:srcCompat="@drawable/slightly_smiling" />
-
-        <ImageButton
-            android:id="@+id/feelingButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_neutral"
-            app:srcCompat="@drawable/neutral_face_1f610" />
-
-        <ImageButton
-            android:id="@+id/feelingButton4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_slightly_bummed"
-            app:srcCompat="@drawable/confused_face_1f615" />
-
-        <ImageButton
-            android:id="@+id/feelingButton5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_sad"
-            app:srcCompat="@drawable/frowning_face_2639_fe0f" />
-
-        <ImageButton
-            android:id="@+id/feelingButton6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
-            android:contentDescription="@string/feeling_weepy"
-            app:srcCompat="@drawable/downcast_face_with_sweat_1f613" />
-    </LinearLayout>
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="75dp" />
+        app:layout_constraintGuide_end="15dp" />
+
+    <ImageView
+        android:id="@+id/photo_preview_placeholder"
+        android:layout_width="198dp"
+        android:layout_height="209dp"
+        android:layout_marginBottom="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/save_button_photo"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <TextView
+        android:id="@+id/photo_track_your_mood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/track_your_mood"
+        app:layout_constraintBottom_toTopOf="@+id/feelingButton1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photo_preview_placeholder" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

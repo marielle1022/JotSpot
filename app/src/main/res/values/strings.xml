@@ -28,8 +28,23 @@
     <string name="feeling_slightly_bummed">Slightly Bummed</string>
     <string name="feeling_sad">Sad</string>
     <string name="feeling_weepy">Weepy</string>
+    <string name="track_your_mood">Track your mood?</string>
+
+    <string name="choose_a_prompt">Choose a prompt!</string>
+
+    <string-array name="prompt_array">
+        <item>Choose a prompt!</item>
+        <item>What is your favorite thing to do on a rainy day?</item>
+        <item>If you could travel anywhere, where would you go?</item>
+        <item>What is one good thing that happened to you today?</item>
+        <item>What is one thing you would change about today?</item>
+        <item>Name a movie/book/show you enjoy and why.</item>
+        <item>What is one thing you want to learn how to do?</item>
+    </string-array>
 
     <string name="timestamp_placeholder">Timestamp</string>
     <string name="mood_history_descriptor">Emoji for Mood History</string>
+
+    <string name="prompt_listing">Prompt: %s</string>
 
 </resources>

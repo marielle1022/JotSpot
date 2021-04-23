@@ -1,42 +1,36 @@
 package edu.neu.madcourse.jotspot;
 
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.neu.madcourse.jotspot.firebase_helpers.Entry;
-
-import edu.neu.madcourse.jotspot.firebase_helpers.EntryType;
-import edu.neu.madcourse.jotspot.firebase_helpers.ThreadTaskHelper;
-
 import edu.neu.madcourse.jotspot.firebase_helpers.User;
 
+public class OneSentencePromptActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-public class TextEntryScreenActivity extends AppCompatActivity {
+    private Spinner promptSpinner;
+    private String prompt;
 
     // Firebase-related variables
     private FirebaseDatabase database;
@@ -47,12 +41,10 @@ public class TextEntryScreenActivity extends AppCompatActivity {
     private String username = "testUser";
     private User user;
 
-    EditText textEntryView;
+    EditText sentenceEntryView;
 
-    Button discardTextEntry;
-    Button saveTextEntry;
-
-    private String TAG = "EntryTag";
+    Button discardSentenceButton;
+    Button saveSentenceButton;
 
     // Variables storing feelings buttons
     // Options: "NONE", "VERY HAPPY", "HAPPY", "NEUTRAL", "SLIGHTLY BUMMED", "SAD", "WEEPY"
@@ -78,19 +70,26 @@ public class TextEntryScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_text_entry_screen);
+        setContentView(R.layout.activity_one_sentence_prompt);
 
-        // TODO: figure out a better way to save username
-//        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-//        String username = sharedPreferences.getString("USERNAME_PREFERENCES", "user_not_found");
+        promptSpinner = (Spinner) findViewById(R.id.prompt_spinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.prompt_array, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        promptSpinner.setAdapter(adapter);
+        promptSpinner.setOnItemSelectedListener(this);
 
         // Firebase database objects
-        // TODO: figure out if this is the best place to do this
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
 
         // TODO: set up actual user
         user = new User(username);
+
+        // TODO: need Firebase tokens?
 
         mood = strFeeling0;
 
@@ -98,28 +97,25 @@ public class TextEntryScreenActivity extends AppCompatActivity {
 
         setFeelingOnClicks();
 
-        // TODO: need Firebase tokens?
+        sentenceEntryView = (EditText) findViewById(R.id.one_sentence_entry);
 
-        textEntryView = (EditText) findViewById(R.id.one_sentence_entry);
+        discardSentenceButton = (Button) findViewById(R.id.sentence_discard_button);
 
-        discardTextEntry = (Button) findViewById(R.id.discard_text_button);
-
-        discardTextEntry.setOnClickListener(new View.OnClickListener() {
+        discardSentenceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 discard();
             }
         });
 
-        saveTextEntry = (Button) findViewById(R.id.save_text_button);
+        saveSentenceButton = (Button) findViewById(R.id.sentence_save_button);
 
-        saveTextEntry.setOnClickListener(new View.OnClickListener() {
+        saveSentenceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveTextEntry();
+                saveSentenceEntry();
             }
         });
-
     }
 
     // Discard text entry
@@ -145,44 +141,80 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         builder.show();
     }
 
-    // TODO: figure out dialogs?
-    // Save the text entry
-    private void saveTextEntry() {
-        String textForEntry = textEntryView.getText().toString();
-        TextDbTask task = new TextDbTask();
-        task.execute(textForEntry);
-        Toast.makeText(getApplicationContext(), "Text entry saved successfully.", Toast.LENGTH_LONG).show();
+    // Save the sentence entry
+    private void saveSentenceEntry() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm save");
+        builder.setMessage("Are you sure you are finished with this entry?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                String sentenceForEntry = sentenceEntryView.getText().toString();
+                if (prompt != null) {
+                    SentenceDbTask task = new SentenceDbTask();
+                    task.execute(sentenceForEntry);
+                    sentenceEntryView.setText("..");
+                    Toast toast = Toast.makeText(getApplicationContext(), "Entry saved successfully.", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please choose a prompt.", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }
+                finish();
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create();
+        builder.show();
     }
 
-    // Create text entry and add to the database
-    private void addTextEntryToDb(String inTextEntry) {
+    // Create sentence entry and add to the database
+    private void addSentenceEntryToDb(String inSentenceEntry) {
         timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         try {
-            Entry textEntryObj = new Entry("TEXT", timestamp, inTextEntry, mood);
+            Entry sentenceEntryObj = new Entry("SENTENCE", timestamp, prompt, inSentenceEntry, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
             DatabaseReference usersRef = databaseRef.child("users");
-            usersRef.child(username).child(timestamp).setValue(textEntryObj);
+            usersRef.child(username).child(timestamp).setValue(sentenceEntryObj);
         } catch (ParseException e) {
-            Log.w(TAG, e);
+            Log.w("SentenceCatch", e);
         }
-        // Method to add to firebase taken from Firebase Realtime Database
-        // documentation on saving data
-//        DatabaseReference usersRef = databaseRef.child("users");
-        // TODO: figure out why setValueAsync doesn't work
-        // https://firebase.google.com/docs/database/admin/save-data
-        // Use push() to set unique key
-//        usersRef.child(username).push().setValue(inTextEntry);
-//        usersRef.child(username).child(timestamp).setValue(textEntryObj);
     }
 
-    // Move text "upload to db" to a separate task
+    @Override
+    // Note: basis taken from https://www.tutorialspoint.com/how-to-get-spinner-value-in-android
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+        // If the text is not "Choose a prompt!", save it as the prompt
+        if (!text.equals(getString(R.string.choose_a_prompt))) {
+            prompt = text;
+        } else {
+            prompt = null;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    // Move sentence "upload to db" to a separate task
     // AsyncTask<params, progress, results>
-    private class TextDbTask extends AsyncTask<String, Void, Void> {
+    private class SentenceDbTask extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... strings) {
             String text = strings[0];
-            addTextEntryToDb(text);
+            addSentenceEntryToDb(text);
             return null;
         }
     }
@@ -237,5 +269,4 @@ public class TextEntryScreenActivity extends AppCompatActivity {
             }
         });
     }
-
 }
