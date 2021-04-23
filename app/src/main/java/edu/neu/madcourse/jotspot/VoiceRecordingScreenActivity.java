@@ -8,7 +8,9 @@ import androidx.core.content.FileProvider;
 
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -149,11 +151,30 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: save to cloud storage
-        // TODO: dialog
         saveEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveVoiceEntry();
+            }
+        });
+
+        // TODO: figure out how to discard file
+        discardEntryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                discard();
+            }
+        });
+    }
+
+    private void saveVoiceEntry() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm save");
+        builder.setMessage("Are you sure you are finished with this entry?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
                 if (recorder != null) {
                     recorder.release();
                     recorder = null;
@@ -166,12 +187,24 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
                 task.execute();
             }
         });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
-        // TODO: figure out how to discard file
-        // TODO: dialog
-        discardEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create();
+        builder.show();
+    }
+
+    private void discard() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm discard");
+        builder.setMessage("Are you sure you want to discard this entry?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
                 if (recorder != null) {
                     recorder.release();
                     recorder = null;
@@ -185,6 +218,15 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
                 createFilePath();
             }
         });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create();
+        builder.show();
     }
 
     // Set the views for all buttons
