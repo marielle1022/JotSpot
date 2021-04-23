@@ -3,22 +3,21 @@ package edu.neu.madcourse.jotspot.firebase_helpers;
 public class User {
 
     private String username;
-    private String token;
+    private String hashedPassword;
 
     // Empty (default) constructor needed for calls to DataSnapshot.getValue
     public User() {}
 
-    // Constructor with username and empty token
-    // TODO: is this needed?
-    public User(String username) {
+    // Constructor with username and hashed password
+    // TODO: is token needed?
+    public User(String username, String hashedPassword) {
         this.username = username;
-        this.token="";
+        this.hashedPassword = hashedPassword;
     }
 
-    // Constructor with username and token
-    public User(String username, String token) {
+    // Constructor with username
+    public User(String username) {
         this.username = username;
-        this.token = token;
     }
 
     public String getUsername() {
@@ -29,17 +28,12 @@ public class User {
         this.username = username;
     }
 
-    public String getToken() {
-        return token;
+    public String getHashedPassword() {
+        return hashedPassword;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    @Override
-    public String toString() {
-        return "Username: " + this.username + " Token: " + this.token;
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
     }
 
 }

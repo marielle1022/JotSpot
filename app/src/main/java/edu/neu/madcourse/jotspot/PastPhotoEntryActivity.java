@@ -3,6 +3,8 @@ package edu.neu.madcourse.jotspot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,9 @@ public class PastPhotoEntryActivity extends AppCompatActivity {
 
     private FirebaseStorage storage;
     private StorageReference storageRef;
+
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
 
     private String username;
 
@@ -57,8 +62,9 @@ public class PastPhotoEntryActivity extends AppCompatActivity {
         // Creating a storage reference
         storageRef = storage.getReference();
 
-        // TODO: get actual username
-        username = "testUser";
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
 
         getViews();
 

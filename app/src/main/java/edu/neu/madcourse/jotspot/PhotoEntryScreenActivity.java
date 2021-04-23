@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -20,6 +23,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +66,9 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageRef;
 
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
+
     private Button saveButton;
     private Button discardButton;
     private ImageButton cameraButton;
@@ -71,6 +78,8 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
     private String imageFileName;
     private List<String> listImageFileNames;
     private List<Uri> listPhotoUris;
+
+    private Uri photoUri;
 
     int numPhotosThisEntry;
     int numPhotosLeftThisEntry;
@@ -99,6 +108,11 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
     // Variables storing mood
     private String mood;
 
+    // ImageViews for thumbnails
+    private ImageView thumbnail1;
+    private ImageView thumbnail2;
+    private ImageView thumbnail3;
+
     static final int MY_REQUEST_CODE = 1;
     static final int MY_PHOTO_REQUEST_CODE = 2;
     private String TAG = "EntryTag";
@@ -108,7 +122,9 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_entry_screen);
 
-        username = "testUser";
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
 
         // Firebase database objects
         database = FirebaseDatabase.getInstance();
@@ -130,6 +146,10 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         numPhotosLeftThisEntry = 0;
 
         mood = strFeeling0;
+
+        thumbnail1 = this.findViewById(R.id.photo_preview_placeholder1);
+        thumbnail2 = this.findViewById(R.id.photo_preview_placeholder2);
+        thumbnail3 = this.findViewById(R.id.photo_preview_placeholder3);
 
         getButtonViews();
 
@@ -156,6 +176,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
 
         // Save photo entry and upload to cloud storage
         saveButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick (View view) {
                 if ((listImageFileNames.size() != 0) && (listPhotoUris.size() != 0)) {
@@ -166,9 +187,12 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                         StorageReference photoReference =
                                 storageRef.child(username).child(entryTimestamp).child(listImageFileNames.get(i) + ".jpg");
                         ThreadTaskHelper threadHelper = new ThreadTaskHelper(photoReference, listPhotoUris.get(i));
-//                        uploadPhoto(photoReference, listPhotoUris.get(i));
                         PhotoUploadTask task = new PhotoUploadTask();
                         task.execute(threadHelper);
+                        thumbnail1.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
+                        thumbnail2.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
+                        thumbnail3.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
+                        mood = strFeeling0;
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "There are no photos to save.", Toast.LENGTH_LONG).show();
@@ -222,18 +246,49 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 }
                 // If the file was created successfully, take the photo
                 if (photoFile != null) {
-                    Uri photoUri = FileProvider.getUriForFile(this, "edu.neu.madcourse.jotspot.fileprovider", photoFile);
+//                    Uri photoUri = FileProvider.getUriForFile(this, "edu.neu.madcourse.jotspot.fileprovider", photoFile);
+                    photoUri = FileProvider.getUriForFile(this, "edu.neu.madcourse.jotspot.fileprovider", photoFile);
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                     startActivityForResult(cameraIntent, MY_PHOTO_REQUEST_CODE);
+//                    displayPhotoFromUri(photoUri);
                     // Add file name to list
                     listImageFileNames.add(imageFileName);
                     // Add photo uri to list
                     listPhotoUris.add(photoUri);
-                    // Add 1 to number of photos for this entry
-                    numPhotosThisEntry += 1;
+//                    // Add 1 to number of photos for this entry
+//                    numPhotosThisEntry += 1;
                     // TODO: figure out how to ask for and grant storage permissions?
                 }
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void displayPhotoFromUri() throws IOException {
+        Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+//        Bitmap scaledImageBitmap = Bitmap.createScaledBitmap(imageBitmap,  600 ,600, true);
+        if (numPhotosThisEntry == 0) {
+            thumbnail1.setImageBitmap(imageBitmap);
+            thumbnail1.setVisibility(View.VISIBLE);
+        } else if (numPhotosThisEntry == 1) {
+            thumbnail2.setImageBitmap(imageBitmap);
+            thumbnail2.setVisibility(View.VISIBLE);
+        } else if (numPhotosThisEntry == 2) {
+            thumbnail3.setImageBitmap(imageBitmap);
+            thumbnail3.setVisibility(View.VISIBLE);
+        }
+        // Add 1 to number of photos for this entry
+        numPhotosThisEntry += 1;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MY_PHOTO_REQUEST_CODE && resultCode == RESULT_OK) {
+            try {
+                displayPhotoFromUri();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -314,8 +369,8 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
             Entry photoEntryObj = new Entry("PHOTO", entryTimestamp, listImageFileNames, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
-            DatabaseReference usersRef = databaseRef.child("users");
-            usersRef.child(username).child(entryTimestamp).setValue(photoEntryObj);
+            DatabaseReference usersRef = databaseRef.child(getString(R.string.entries_path, username));
+            usersRef.child(entryTimestamp).setValue(photoEntryObj);
         } catch (ParseException e) {
             Log.w(TAG, e);
         }
@@ -327,12 +382,17 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         builder.setMessage(getString(R.string.discard_photo_warning));
         builder.setCancelable(true);
         builder.setPositiveButton(getString(R.string.discard_photo_yes), new DialogInterface.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Reset timestamp, list of photo file names, and list of photo file uris
                 entryTimestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 listImageFileNames = new ArrayList<>();
                 listPhotoUris = new ArrayList<>();
+                thumbnail1.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
+                thumbnail2.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
+                thumbnail3.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
+                mood = strFeeling0;
             }
         });
         builder.setNegativeButton(getString(R.string.discard_photo_no), new DialogInterface.OnClickListener() {
