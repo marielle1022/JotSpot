@@ -112,6 +112,7 @@ public class PastEntriesActivity extends AppCompatActivity {
                                             PastTextEntryActivity.class);
                                     pastTextEntryIntent.putExtra(TEXT_TAG, textEntryParcel);
                                     PastEntriesActivity.this.startActivity(pastTextEntryIntent);
+                                    break;
                                 case "VOICE":
                                     VoiceEntryParcel voiceEntryParcel = new
                                             VoiceEntryParcel(entriesList.get(position).getPastEntryType(),
@@ -123,6 +124,7 @@ public class PastEntriesActivity extends AppCompatActivity {
                                             PastVoiceEntryActivity.class);
                                     pastVoiceEntryIntent.putExtra(VOICE_TAG, voiceEntryParcel);
                                     PastEntriesActivity.this.startActivity(pastVoiceEntryIntent);
+                                    break;
                                 case "PHOTO":
                                     PhotoEntryParcel photoEntryParcel = new
                                             PhotoEntryParcel(entriesList.get(position).getPastEntryType(),
@@ -134,6 +136,7 @@ public class PastEntriesActivity extends AppCompatActivity {
                                             PastPhotoEntryActivity.class);
                                     pastPhotoEntryIntent.putExtra(PHOTO_TAG, photoEntryParcel);
                                     PastEntriesActivity.this.startActivity(pastPhotoEntryIntent);
+                                    break;
                                 case "SENTENCE":
                                     SentenceEntryParcel sentenceEntryParcel = new
                                             SentenceEntryParcel(entriesList.get(position).getPastEntryType(),
@@ -146,6 +149,7 @@ public class PastEntriesActivity extends AppCompatActivity {
                                             PastSentenceActivity.class);
                                     pastSentenceEntryIntent.putExtra(SENTENCE_TAG, sentenceEntryParcel);
                                     PastEntriesActivity.this.startActivity(pastSentenceEntryIntent);
+                                    break;
                             }
                         }
                     };
