@@ -213,9 +213,9 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     // Start recording the audio. Call this on pressing the "record" button.
     // Note: this uses examples from the Android documentation for the MediaRecorder
     private void recordAudio() {
-//        if (checkSelfPermission(RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(new String[] {RECORD_AUDIO}, AUDIO_REQUEST_CODE);
-//        } else {
+        if (checkSelfPermission(RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {RECORD_AUDIO}, AUDIO_REQUEST_CODE);
+        } else {
             // TODO: stop player to release
             if (player != null) {
                 player.release();
@@ -236,7 +236,7 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
             }
             recorder.start();
             Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_LONG).show();
-//        }
+        }
     }
 
     // Stop recording the audio. Call this on pressing the "stop" button.
