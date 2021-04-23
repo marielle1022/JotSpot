@@ -86,22 +86,4 @@ public class NotificationService extends Service {
 
     }
 
-
-
-
-
-
-    @Override
-    public void onDestroy() {
-
-        final int TIME_TO_INVOKE = 5 * 1000;
-        AlarmManager alarms = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, MyBroadcastReceiver.class);
-        PendingIntent pendingIntent = PendingIntent
-                .getBroadcast(this, 0, intent, 0);
-
-        alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() +
-                TIME_TO_INVOKE, TIME_TO_INVOKE, pendingIntent);
-
-    }
 }
