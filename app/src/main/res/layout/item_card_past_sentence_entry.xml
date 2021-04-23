@@ -12,37 +12,31 @@
         android:layout_margin="5dp">
 
         <TextView
-            android:id="@+id/voice_date_time_view"
+            android:id="@+id/sentence_date_time_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="7dp"
             android:hint="@string/date_time_default" />
 
-        <ImageButton
-            android:id="@+id/ic_play_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_shape"
-            android:backgroundTint="#717D7F"
-            android:layout_below="@id/voice_date_time_view"
+        <TextView
+            android:id="@+id/sentence_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sentence_date_time_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:hint="@string/audio_play"
-            app:srcCompat="@android:drawable/ic_media_play"/>
+            android:hint="@string/choose_a_prompt" />
 
-        <ImageButton
-            android:id="@+id/ic_stop_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_shape"
-            android:backgroundTint="#717D7F"
-            android:layout_below="@id/voice_date_time_view"
-            android:layout_toEndOf="@+id/ic_play_button"
+        <TextView
+            android:id="@+id/sentence_entry_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sentence_prompt"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:hint="@string/audio_stop"
-            app:srcCompat="@android:drawable/picture_frame"/>
+            android:hint="@string/text_entry_default" />
 
     </RelativeLayout>
+
 </androidx.cardview.widget.CardView>
