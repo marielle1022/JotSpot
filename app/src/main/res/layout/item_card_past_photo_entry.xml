@@ -25,30 +25,39 @@
             android:id="@+id/photo_entry1_view"
             android:layout_width="100dp"
             android:layout_height="175dp"
-            android:layout_below="@id/photo_date_time_view"
+            android:layout_below="@id/photo_go_to_entry"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:contentDescription="@string/photo_entry1_default" />
 
         <ImageView
             android:id="@+id/photo_entry2_view"
             android:layout_width="100dp"
             android:layout_height="175dp"
-            android:layout_below="@id/photo_date_time_view"
-            android:layout_toEndOf="@id/photo_entry1_view"
+            android:layout_below="@id/photo_go_to_entry"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/photo_entry1_view"
             android:contentDescription="@string/photo_entry2_default" />
 
         <ImageView
             android:id="@+id/photo_entry3_view"
             android:layout_width="100dp"
             android:layout_height="175dp"
-            android:layout_below="@id/photo_date_time_view"
-            android:layout_toEndOf="@id/photo_entry2_view"
+            android:layout_below="@id/photo_go_to_entry"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/photo_entry2_view"
             android:contentDescription="@string/photo_entry3_default" />
+
+        <Button
+            android:id="@+id/photo_go_to_entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/photo_date_time_view"
+            android:layout_alignParentEnd="true"
+            android:clickable="false"
+            android:text="@string/view_entry" />
 
     </RelativeLayout>
 

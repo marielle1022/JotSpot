@@ -8,6 +8,8 @@ import androidx.core.content.FileProvider;
 
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -82,6 +84,9 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageRef;
 
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
+
     private String entryTimestamp;
     private String fileName;
     private File audioFile;
@@ -89,6 +94,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
 
     private MediaRecorder recorder;
     private MediaPlayer player;
+
+    static final int AUDIO_REQUEST_CODE = 3;
 
     // Note: if output is default, can change extension to what you want?
     private String extension = ".3gp";
@@ -109,7 +116,9 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
         // Creating a storage reference
         storageRef = storage.getReference();
 
-        username = "testUser";
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
 
         mood = strFeeling0;
 
@@ -204,26 +213,30 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     // Start recording the audio. Call this on pressing the "record" button.
     // Note: this uses examples from the Android documentation for the MediaRecorder
     private void recordAudio() {
-        // TODO: stop player to release
-        if (player != null) {
-            player.release();
-            player = null;
+        if (checkSelfPermission(RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {RECORD_AUDIO}, AUDIO_REQUEST_CODE);
+        } else {
+            // TODO: stop player to release
+            if (player != null) {
+                player.release();
+                player = null;
+            }
+            // TODO: dialog b/c file will be overwritten
+            createFilePath();
+            // Create MediaRecorder
+            recorder = new MediaRecorder();
+            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            recorder.setOutputFile(fileName);
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            try {
+                recorder.prepare();
+            } catch (IOException e) {
+                Log.e("AUDIO", "prepare() MediaRecorder failed in recordAudio()");
+            }
+            recorder.start();
+            Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_LONG).show();
         }
-        // TODO: dialog b/c file will be overwritten
-        createFilePath();
-        // Create MediaRecorder
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setOutputFile(fileName);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        try {
-            recorder.prepare();
-        } catch (IOException e) {
-            Log.e("AUDIO", "prepare() MediaRecorder failed in recordAudio()");
-        }
-        recorder.start();
-        Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_LONG).show();
     }
 
     // Stop recording the audio. Call this on pressing the "stop" button.
@@ -359,8 +372,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
             Entry voiceEntryObj = new Entry("VOICE", entryTimestamp, entryTimestamp + extension, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
-            DatabaseReference usersRef = databaseRef.child("users");
-            usersRef.child(username).child(entryTimestamp).setValue(voiceEntryObj);
+            DatabaseReference usersRef = databaseRef.child(getString(R.string.entries_path, username));
+            usersRef.child(entryTimestamp).setValue(voiceEntryObj);
             // Create new filepath and entry timestamp
             createFilePath();
         } catch (ParseException e) {

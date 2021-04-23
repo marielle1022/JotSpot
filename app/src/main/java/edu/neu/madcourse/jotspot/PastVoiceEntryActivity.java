@@ -3,6 +3,8 @@ package edu.neu.madcourse.jotspot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -28,6 +30,9 @@ public class PastVoiceEntryActivity extends AppCompatActivity {
 
     private FirebaseStorage storage;
     private StorageReference storageRef;
+
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
 
     private String username;
 
@@ -62,8 +67,9 @@ public class PastVoiceEntryActivity extends AppCompatActivity {
         // Creating a storage reference
         storageRef = storage.getReference();
 
-        // TODO: get actual username
-        username = "testUser";
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
 
         player = new MediaPlayer();
 
@@ -93,30 +99,34 @@ public class PastVoiceEntryActivity extends AppCompatActivity {
         voiceRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Audio successfully downloaded
-                // Set buttons for Media Player
-                playButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            player.setDataSource(String.valueOf(localFile));
-                            player.prepare();
-                            player.start();
-                        } catch (IOException e) {
-                            Log.w("Play Exception", e);
-                        }
-                    }
-                });
-                pauseButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (player != null) {
-                            if (player.isPlaying()) {
-                                player.pause();
+                try {
+                    player.setDataSource(String.valueOf(localFile));
+                    player.prepare();
+
+                    // Audio successfully downloaded
+                    // Set buttons for Media Player
+                    playButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (player != null) {
+                                player.start();
                             }
                         }
-                    }
-                });
+                    });
+                    pauseButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (player != null) {
+                                if (player.isPlaying()) {
+                                    player.pause();
+                                }
+                            }
+                        }
+                    });
+
+                } catch (IOException e) {
+                    Log.w("Play Exception", e);
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

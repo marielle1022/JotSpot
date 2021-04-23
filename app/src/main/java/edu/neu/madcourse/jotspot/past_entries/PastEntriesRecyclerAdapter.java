@@ -1,5 +1,7 @@
 package edu.neu.madcourse.jotspot.past_entries;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -28,23 +30,41 @@ public class PastEntriesRecyclerAdapter extends RecyclerView.Adapter<PastEntries
     private FirebaseStorage storage;
     private StorageReference storageRef;
 
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
+
     private String username;
+
+    private Context context;
 
     String timestamp;
 
     // Create an array list of item cards
     private final ArrayList<PastEntriesItemCard> listItemCards;
+
     private PastEntriesRecyclerListener listener;
 
+    // Note: taken from StackOverflow question on how to reference shared preferences within adapter
+    // https://stackoverflow.com/questions/38241677/how-to-use-shared-preferences-in-recyclerview-adapter
+    public PastEntriesRecyclerAdapter(Context context) {
+        this.context = context;
+        this.listItemCards = new ArrayList<>();
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(context.getString(R.string.username_preferences_key), defaultString);
+    }
+
     // Constructor
-    public PastEntriesRecyclerAdapter(ArrayList<PastEntriesItemCard> inListItemCards) {
+    public PastEntriesRecyclerAdapter(ArrayList<PastEntriesItemCard> inListItemCards, Context context) {
+        this.context = context;
         this.listItemCards = inListItemCards;
         // Firebase Storage instance
         storage = FirebaseStorage.getInstance();
         // Creating a storage reference
         storageRef = storage.getReference();
-        // TODO: get actual username
-        username = "testUser";
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(context.getString(R.string.username_preferences_key), defaultString);
     }
 
     // Set listener
