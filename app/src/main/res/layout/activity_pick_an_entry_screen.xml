@@ -26,7 +26,8 @@
         android:id="@+id/mic_button"
         android:layout_width="105dp"
         android:layout_height="105dp"
-        android:layout_marginBottom="220dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="170dp"
         android:background="@drawable/button_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,6 +39,7 @@
         android:id="@+id/camera_button"
         android:layout_width="105dp"
         android:layout_height="105dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_shape"
         app:layout_constraintBottom_toTopOf="@+id/mic_button"
@@ -58,5 +60,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createEntry"
         app:srcCompat="@mipmap/text_button" />
+
+    <TextView
+        android:id="@+id/pencil_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rock_salt"
+        android:text="Text"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_button" />
+
+    <TextView
+        android:id="@+id/camera_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rock_salt"
+        android:text="Camera"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/camera_button" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rock_salt"
+        android:text="Recording"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mic_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
