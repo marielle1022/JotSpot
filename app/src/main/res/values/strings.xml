@@ -29,6 +29,9 @@
     <string name="feeling_sad">Sad</string>
     <string name="feeling_weepy">Weepy</string>
     <string name="track_your_mood">Track your mood?</string>
+    <string name="channel_name">jotspot_notification</string>
+    <string name="channel_description">jotspot reminder</string>
+    <string name="set_reminder">Set Reminder</string>
 
     <string name="choose_a_prompt">Choose a prompt!</string>
 
@@ -42,9 +45,18 @@
         <item>What is one thing you want to learn how to do?</item>
     </string-array>
 
+    <string-array name="repeat_array">
+        <item>Repeat</item>
+        <item>Never</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+    </string-array>
+
     <string name="timestamp_placeholder">Timestamp</string>
     <string name="mood_history_descriptor">Emoji for Mood History</string>
 
     <string name="prompt_listing">Prompt: %s</string>
+
 
 </resources>
