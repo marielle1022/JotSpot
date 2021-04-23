@@ -24,18 +24,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/sentence_date_time_view"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_alignStart="@id/sentence_date_time_view"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_toStartOf="@id/sentence_go_to_entry"
             android:hint="@string/choose_a_prompt" />
 
         <TextView
             android:id="@+id/sentence_entry_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/sentence_prompt"
+            android:layout_below="@id/sentence_go_to_entry"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:hint="@string/text_entry_default" />
+
+        <Button
+            android:id="@+id/sentence_go_to_entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/sentence_date_time_view"
+            android:layout_alignParentEnd="true"
+            android:clickable="false"
+            android:text="@string/view_entry" />
 
     </RelativeLayout>
 

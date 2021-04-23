@@ -19,30 +19,47 @@
             android:layout_marginTop="7dp"
             android:hint="@string/date_time_default" />
 
-        <ImageButton
-            android:id="@+id/ic_play_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_shape"
-            android:backgroundTint="#717D7F"
-            android:layout_below="@id/voice_date_time_view"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:hint="@string/audio_play"
-            app:srcCompat="@android:drawable/ic_media_play"/>
+<!--        <ImageButton-->
+<!--            android:id="@+id/ic_play_button"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/button_shape"-->
+<!--            android:backgroundTint="#717D7F"-->
+<!--            android:layout_below="@id/voice_date_time_view"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:hint="@string/audio_play"-->
+<!--            app:srcCompat="@android:drawable/ic_media_play"/>-->
 
-        <ImageButton
-            android:id="@+id/ic_stop_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button_shape"
-            android:backgroundTint="#717D7F"
-            android:layout_below="@id/voice_date_time_view"
-            android:layout_toEndOf="@+id/ic_play_button"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:hint="@string/audio_stop"
-            app:srcCompat="@android:drawable/picture_frame"/>
+<!--        <ImageButton-->
+<!--            android:id="@+id/ic_stop_button"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/button_shape"-->
+<!--            android:backgroundTint="#717D7F"-->
+<!--            android:layout_below="@id/voice_date_time_view"-->
+<!--            android:layout_toEndOf="@+id/ic_play_button"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:hint="@string/audio_stop"-->
+<!--            app:srcCompat="@android:drawable/picture_frame"/>-->
+
+        <TextView
+            android:id="@+id/voice_entry_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/voice_go_to_entry"
+            android:layout_alignStart="@id/voice_date_time_view"
+            android:text="@string/voice_description" />
+
+        <Button
+            android:id="@+id/voice_go_to_entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/voice_date_time_view"
+            android:layout_alignParentEnd="true"
+            android:clickable="false"
+            android:text="@string/view_entry" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
