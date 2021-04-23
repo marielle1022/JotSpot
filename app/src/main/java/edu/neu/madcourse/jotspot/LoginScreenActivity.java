@@ -38,12 +38,18 @@ public class LoginScreenActivity extends AppCompatActivity {
     private DatabaseReference databaseRef;
 
     private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
+
+    private String storedUsername;
+    private String storedPassword;
 
     private TextInputEditText usernameView;
     private TextInputEditText passwordView;
 
     private Button loginButton;
     private Button createButton;
+
+    private boolean credentialsValid;
 
 
     @Override
@@ -58,7 +64,17 @@ public class LoginScreenActivity extends AppCompatActivity {
         // Used Android documentation on how to implement shared preferences
         sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
 
+        storedUsername = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
+        storedPassword = sharedPreferences.getString(getString(R.string.password_preferences_key), defaultString);
+
         getViews();
+
+        final boolean[] checkCredentials = {false};
+
+        if (!storedUsername.equals(defaultString) && !storedPassword.equals(defaultString)) {
+            usernameView.setText(storedUsername);
+            passwordView.setText(storedPassword);
+        }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

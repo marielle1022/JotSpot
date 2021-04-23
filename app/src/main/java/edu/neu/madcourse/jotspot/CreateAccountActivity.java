@@ -21,9 +21,6 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.util.Arrays;
-import java.util.Base64;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -41,11 +38,11 @@ public class CreateAccountActivity extends AppCompatActivity {
     private Button createAccountButton;
 
     /*
-    Checks username
+    Checks username and password
     Allows for uppercase and lowercase letters (without accents) and certain special characters
     Does not allow spaces
     */
-    private static final String USERNAME_PATTERN = "([a-zA-Z0-9\\-_!*@]+)";
+    private static final String USERNAME_PASSWORD_PATTERN = "([a-zA-Z0-9\\-_!*@]+)";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,12 +90,18 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) {
-                    // If the username does not exist, check if it's valid
-                    if (!usernameVal.matches(USERNAME_PATTERN) || usernameVal.equals("")) {
-                        Toast.makeText(getApplicationContext(), "Please enter a username with no spaces, only letters, numbers, and/or the following: - . _ ! * @", Toast.LENGTH_LONG).show();
+                    if (passwordView.getText() != null) {
+                        // If the username does not exist, check if it's valid
+                        if (!usernameVal.matches(USERNAME_PASSWORD_PATTERN) || usernameVal.equals("")) {
+                            Toast.makeText(getApplicationContext(), "Please enter a username with no spaces, only letters, numbers, and/or the following: - . _ ! * @", Toast.LENGTH_LONG).show();
+                        } else if (!passwordView.getText().toString().matches(USERNAME_PASSWORD_PATTERN)) {
+                            Toast.makeText(getApplicationContext(), "Please enter a username with no spaces, only letters, numbers, and/or the following: - . _ ! * @", Toast.LENGTH_LONG).show();
+                        } else {
+                            // If the username is valid, pass the username and hashed password to the database
+                            writePersonalInfo(usernameVal);
+                        }
                     } else {
-                        // If the username is valid, pass the username and hashed password to the database
-                        writePersonalInfo(usernameVal);
+                        Toast.makeText(getApplicationContext(), "Please enter a password with no spaces, only letters, numbers, and/or the following: - . _ ! * @", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "This username already exists. Please choose another one.", Toast.LENGTH_LONG).show();
@@ -126,6 +129,12 @@ public class CreateAccountActivity extends AppCompatActivity {
                 // Referenced Android documentation to write username locally
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(getString(R.string.username_preferences_key), username);
+                // Note: storing password locally to android device as plain text is not good
+                // practice, but we think it is preferable to storing the password hash locally as
+                // plain text.
+                // Future iterations will implement Account Manager, but we were unable to get that
+                // working for this iteration of the project.
+                editor.putString(getString(R.string.password_preferences_key), passwordView.getText().toString());
                 editor.apply();
 
                 // Go to home activity
