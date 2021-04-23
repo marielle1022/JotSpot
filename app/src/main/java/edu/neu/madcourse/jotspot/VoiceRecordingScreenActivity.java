@@ -8,6 +8,8 @@ import androidx.core.content.FileProvider;
 
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -82,6 +84,9 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageRef;
 
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
+
     private String entryTimestamp;
     private String fileName;
     private File audioFile;
@@ -109,7 +114,9 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
         // Creating a storage reference
         storageRef = storage.getReference();
 
-        username = "testUser";
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
 
         mood = strFeeling0;
 

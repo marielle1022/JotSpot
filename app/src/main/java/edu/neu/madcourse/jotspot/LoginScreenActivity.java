@@ -98,6 +98,12 @@ public class LoginScreenActivity extends AppCompatActivity {
                     try {
                         User user = snapshot.getValue(User.class);
                         if (user != null) {
+                            // TODO: move to within other function
+                            // Referenced Android documentation to write username locally
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString(getString(R.string.username_preferences_key), usernameVal);
+                            editor.apply();
+
                             checkPassword(user.getHashedPassword());
                         }
                     } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {

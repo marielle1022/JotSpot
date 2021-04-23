@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 
 import android.content.SharedPreferences;
@@ -44,7 +45,10 @@ public class TextEntryScreenActivity extends AppCompatActivity {
 
     private String timestamp;
 
-    private String username = "testUser";
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
+
+    private String username;
 
     EditText textEntryView;
 
@@ -79,12 +83,11 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_entry_screen);
 
-        // TODO: figure out a better way to save username
-//        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-//        String username = sharedPreferences.getString("USERNAME_PREFERENCES", "user_not_found");
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
 
         // Firebase database objects
-        // TODO: figure out if this is the best place to do this
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
 
@@ -150,7 +153,6 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         task.execute(textForEntry);
         Toast.makeText(getApplicationContext(), "Text entry saved successfully.", Toast.LENGTH_LONG).show();
         textEntryView.setText("");
-        mood = strFeeling0;
     }
 
     // Create text entry and add to the database
@@ -162,6 +164,7 @@ public class TextEntryScreenActivity extends AppCompatActivity {
             // documentation on saving data
             DatabaseReference usersRef = databaseRef.child(getString(R.string.entries_path, username));
             usersRef.child(timestamp).setValue(textEntryObj);
+            mood = strFeeling0;
         } catch (ParseException e) {
             Log.w(TAG, e);
         }

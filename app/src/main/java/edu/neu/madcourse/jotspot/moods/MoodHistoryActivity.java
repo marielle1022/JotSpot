@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -29,7 +31,10 @@ public class MoodHistoryActivity extends AppCompatActivity {
     // List of link items
     private ArrayList<MoodHistRecyclerItemCard> moodList = new ArrayList<>();
 
-    // Current user
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
+
+    // Current username
     private String username;
 
     @Override
@@ -37,7 +42,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_history);
 
-        username = "testUser";
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
 
         createRecyclerView();
     }
@@ -53,7 +60,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         moodHistRecyclerView.setHasFixedSize(true);
         // Retrieve data from database and add it to the list
         // Note: references Unique Andro Code in how to retrieve data from firebase
-        // Set up database reference pointing to Received messages under the current user
+        // Set up database reference pointing to entries under current user
         final DatabaseReference db =
                 FirebaseDatabase.getInstance().getReference(getString(R.string.entries_path,
                         username));

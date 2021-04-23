@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -38,6 +40,9 @@ public class PastEntriesActivity extends AppCompatActivity {
     // List of past entry items
     private ArrayList<PastEntriesItemCard> entriesList = new ArrayList<>();
 
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
+
     // Current username
     private String username;
 
@@ -51,7 +56,9 @@ public class PastEntriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_past_entries);
 
-        username = "testUser";
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
 
         createRecyclerView();
     }
@@ -90,7 +97,7 @@ public class PastEntriesActivity extends AppCompatActivity {
                     }
 
                     // Create adapter from list of items (created inside if statement)
-                    pastEntriesAdapter = new PastEntriesRecyclerAdapter(entriesList);
+                    pastEntriesAdapter = new PastEntriesRecyclerAdapter(entriesList, getApplicationContext());
 
                     // Set listener for on item clicked
                     PastEntriesRecyclerListener itemClickListener = new PastEntriesRecyclerListener() {

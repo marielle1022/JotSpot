@@ -3,7 +3,9 @@ package edu.neu.madcourse.jotspot;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +40,10 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
 
     private String timestamp;
 
-    private String username = "testUser";
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
+
+    private String username;
 
     EditText sentenceEntryView;
 
@@ -70,6 +75,10 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_sentence_prompt);
+
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
 
         promptSpinner = (Spinner) findViewById(R.id.prompt_spinner);
 
@@ -152,16 +161,11 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
                     SentenceDbTask task = new SentenceDbTask();
                     task.execute(sentenceForEntry);
                     sentenceEntryView.setText("");
-                    mood = strFeeling0;
-                    Toast toast = Toast.makeText(getApplicationContext(), "Entry saved successfully.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(), "Please choose a prompt.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
                 }
-                finish();
             }
         });
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -184,6 +188,7 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
             // documentation on saving data
             DatabaseReference usersRef = databaseRef.child(getString(R.string.entries_path, username));
             usersRef.child(timestamp).setValue(sentenceEntryObj);
+            mood = strFeeling0;
         } catch (ParseException e) {
             Log.w("SentenceCatch", e);
         }
