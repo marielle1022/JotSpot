@@ -121,13 +121,12 @@ public class PastEntriesRecyclerAdapter extends RecyclerView.Adapter<PastEntries
                 holder.voiceEntryDateTime.setText(currentItem.getFormattedDateTime());
                 String audioFilePath = currentItem.getVoiceEntryPath();
                 if (audioFilePath != null) {
-                    try {
-                        getAudioSetButtons(audioFilePath, holder);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        getAudioSetButtons(audioFilePath, holder);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                 }
-                // TODO: get audio from cloud storage
                 break;
             case "PHOTO":
                 holder.photoEntryDateTime.setText(currentItem.getFormattedDateTime());
@@ -225,47 +224,47 @@ public class PastEntriesRecyclerAdapter extends RecyclerView.Adapter<PastEntries
     // Get audio recording from Firebase Cloud Storage and save locally
     // Set media player if temp file created successfully
     // Taken from Firebase documentation on how to download files
-    private void getAudioSetButtons(String audioName, PastEntriesRecyclerHolder holder) throws IOException {
-        StorageReference voiceRef = storageRef.child(username).child(audioName);
-        File localFile = File.createTempFile(timestamp, "3gp");
-        voiceRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Audio successfully downloaded
-                // Set buttons for Media Player
-                MediaPlayer player = new MediaPlayer();
-                holder.voiceEntryPlayButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            player.setDataSource(String.valueOf(localFile));
-                            player.prepare();
-                            player.start();
-                        } catch (IOException e) {
-                            Log.w("Play Exception", e);
-                        }
-                    }
-                });
-                holder.voiceEntryStopButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (player != null) {
-                            if (player.isPlaying()) {
-                                player.pause();
-                                // TODO: figure out release
-                            }
-                        }
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // TODO: figure out best way to handle errors
-                Log.w("in play audio", e);
-            }
-        });
-    }
+//    private void getAudioSetButtons(String audioName, PastEntriesRecyclerHolder holder) throws IOException {
+//        StorageReference voiceRef = storageRef.child(username).child(audioName);
+//        File localFile = File.createTempFile(timestamp, "3gp");
+//        voiceRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                // Audio successfully downloaded
+//                // Set buttons for Media Player
+//                MediaPlayer player = new MediaPlayer();
+//                holder.voiceEntryPlayButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        try {
+//                            player.setDataSource(String.valueOf(localFile));
+//                            player.prepare();
+//                            player.start();
+//                        } catch (IOException e) {
+//                            Log.w("Play Exception", e);
+//                        }
+//                    }
+//                });
+//                holder.voiceEntryStopButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (player != null) {
+//                            if (player.isPlaying()) {
+//                                player.pause();
+//                                // TODO: figure out release
+//                            }
+//                        }
+//                    }
+//                });
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                // TODO: figure out best way to handle errors
+//                Log.w("in play audio", e);
+//            }
+//        });
+//    }
 }
 
 // Note: this was adapted from Marielle's previous assignment, which referenced the sample code
