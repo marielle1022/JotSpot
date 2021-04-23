@@ -20,14 +20,17 @@
         android:roundIcon="@mipmap/ic_launcher_js_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JotSpot">
-        <activity android:name=".OneSentencePromptActivity"></activity>
+        <activity android:name=".LoginScreenActivity"></activity>
+        <activity android:name=".OneSentencePromptActivity" />
         <activity android:name=".past_entries.PastEntriesActivity" />
         <activity android:name=".PhotoEntryScreenActivity" />
-        <activity android:name=".SettingsScreenActivity"
-            android:configChanges="orientation|screenSize" />/>
+        <activity
+            android:name=".SettingsScreenActivity"
+            android:configChanges="orientation|screenSize" />
 
         <service android:name=".ScheduleService" />
         <service android:name=".NotifyService" />
+
         <activity
             android:name=".VoiceRecordingScreenActivity"
             android:configChanges="orientation|screenSize" />
