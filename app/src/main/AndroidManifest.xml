@@ -23,7 +23,11 @@
         <activity android:name=".OneSentencePromptActivity"></activity>
         <activity android:name=".past_entries.PastEntriesActivity" />
         <activity android:name=".PhotoEntryScreenActivity" />
-        <activity android:name=".SettingsScreenActivity" />
+        <activity android:name=".SettingsScreenActivity"
+            android:configChanges="orientation|screenSize" />/>
+
+        <service android:name=".ScheduleService" />
+        <service android:name=".NotifyService" />
         <activity
             android:name=".VoiceRecordingScreenActivity"
             android:configChanges="orientation|screenSize" />
