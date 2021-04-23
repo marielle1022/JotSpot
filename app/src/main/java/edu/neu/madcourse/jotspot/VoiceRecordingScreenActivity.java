@@ -359,8 +359,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
             Entry voiceEntryObj = new Entry("VOICE", entryTimestamp, entryTimestamp + extension, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
-            DatabaseReference usersRef = databaseRef.child("users");
-            usersRef.child(username).child(entryTimestamp).setValue(voiceEntryObj);
+            DatabaseReference usersRef = databaseRef.child(getString(R.string.entries_path, username));
+            usersRef.child(entryTimestamp).setValue(voiceEntryObj);
             // Create new filepath and entry timestamp
             createFilePath();
         } catch (ParseException e) {

@@ -45,7 +45,6 @@ public class TextEntryScreenActivity extends AppCompatActivity {
     private String timestamp;
 
     private String username = "testUser";
-    private User user;
 
     EditText textEntryView;
 
@@ -89,9 +88,6 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
 
-        // TODO: set up actual user
-        user = new User(username);
-
         mood = strFeeling0;
 
         getButtonViews();
@@ -131,7 +127,8 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                finish();
+                textEntryView.setText("");
+                mood = strFeeling0;
             }
         });
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -152,6 +149,8 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         TextDbTask task = new TextDbTask();
         task.execute(textForEntry);
         Toast.makeText(getApplicationContext(), "Text entry saved successfully.", Toast.LENGTH_LONG).show();
+        textEntryView.setText("");
+        mood = strFeeling0;
     }
 
     // Create text entry and add to the database
@@ -161,8 +160,8 @@ public class TextEntryScreenActivity extends AppCompatActivity {
             Entry textEntryObj = new Entry("TEXT", timestamp, inTextEntry, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
-            DatabaseReference usersRef = databaseRef.child("users");
-            usersRef.child(username).child(timestamp).setValue(textEntryObj);
+            DatabaseReference usersRef = databaseRef.child(getString(R.string.entries_path, username));
+            usersRef.child(timestamp).setValue(textEntryObj);
         } catch (ParseException e) {
             Log.w(TAG, e);
         }

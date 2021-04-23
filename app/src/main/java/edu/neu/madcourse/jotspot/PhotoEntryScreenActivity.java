@@ -170,6 +170,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
 
         // Save photo entry and upload to cloud storage
         saveButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick (View view) {
                 if ((listImageFileNames.size() != 0) && (listPhotoUris.size() != 0)) {
@@ -180,9 +181,12 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                         StorageReference photoReference =
                                 storageRef.child(username).child(entryTimestamp).child(listImageFileNames.get(i) + ".jpg");
                         ThreadTaskHelper threadHelper = new ThreadTaskHelper(photoReference, listPhotoUris.get(i));
-//                        uploadPhoto(photoReference, listPhotoUris.get(i));
                         PhotoUploadTask task = new PhotoUploadTask();
                         task.execute(threadHelper);
+                        thumbnail1.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
+                        thumbnail2.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
+                        thumbnail3.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
+                        mood = strFeeling0;
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "There are no photos to save.", Toast.LENGTH_LONG).show();
@@ -359,8 +363,8 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
             Entry photoEntryObj = new Entry("PHOTO", entryTimestamp, listImageFileNames, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
-            DatabaseReference usersRef = databaseRef.child("users");
-            usersRef.child(username).child(entryTimestamp).setValue(photoEntryObj);
+            DatabaseReference usersRef = databaseRef.child(getString(R.string.entries_path, username));
+            usersRef.child(entryTimestamp).setValue(photoEntryObj);
         } catch (ParseException e) {
             Log.w(TAG, e);
         }
@@ -382,6 +386,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 thumbnail1.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
                 thumbnail2.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
                 thumbnail3.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
+                mood = strFeeling0;
             }
         });
         builder.setNegativeButton(getString(R.string.discard_photo_no), new DialogInterface.OnClickListener() {

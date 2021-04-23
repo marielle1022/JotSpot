@@ -18,9 +18,6 @@ import java.util.ArrayList;
 
 import edu.neu.madcourse.jotspot.R;
 import edu.neu.madcourse.jotspot.firebase_helpers.Entry;
-import edu.neu.madcourse.jotspot.firebase_helpers.User;
-import edu.neu.madcourse.jotspot.past_entries.PastEntriesItemCard;
-import edu.neu.madcourse.jotspot.past_entries.PastEntriesRecyclerAdapter;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
@@ -58,7 +55,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Note: references Unique Andro Code in how to retrieve data from firebase
         // Set up database reference pointing to Received messages under the current user
         final DatabaseReference db =
-                FirebaseDatabase.getInstance().getReference(getString(R.string.users_path,
+                FirebaseDatabase.getInstance().getReference(getString(R.string.entries_path,
                         username));
         // Note: new ValueEventListener auto populates onDataChange and onCancelled
         db.addListenerForSingleValueEvent(new ValueEventListener() {

@@ -17,7 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import edu.neu.madcourse.jotspot.HomeScreenActivity;
 import edu.neu.madcourse.jotspot.PastPhotoEntryActivity;
 import edu.neu.madcourse.jotspot.PastSentenceActivity;
 import edu.neu.madcourse.jotspot.PastTextEntryActivity;
@@ -70,7 +69,7 @@ public class PastEntriesActivity extends AppCompatActivity {
         // Note: references Unique Andro Code in how to retrieve data from firebase
         // Set up database reference pointing to Received messages under the current user
         final DatabaseReference db =
-                FirebaseDatabase.getInstance().getReference(getString(R.string.users_path,
+                FirebaseDatabase.getInstance().getReference(getString(R.string.entries_path,
                         username));
         // Note: new ValueEventListener auto populates onDataChange and onCancelled
         db.addListenerForSingleValueEvent(new ValueEventListener() {

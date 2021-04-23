@@ -39,7 +39,6 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
     private String timestamp;
 
     private String username = "testUser";
-    private User user;
 
     EditText sentenceEntryView;
 
@@ -86,9 +85,6 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
 
-        // TODO: set up actual user
-        user = new User(username);
-
         // TODO: need Firebase tokens?
 
         mood = strFeeling0;
@@ -127,7 +123,8 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                finish();
+                sentenceEntryView.setText("");
+                mood = strFeeling0;
             }
         });
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -154,7 +151,8 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
                 if (prompt != null) {
                     SentenceDbTask task = new SentenceDbTask();
                     task.execute(sentenceForEntry);
-                    sentenceEntryView.setText("..");
+                    sentenceEntryView.setText("");
+                    mood = strFeeling0;
                     Toast toast = Toast.makeText(getApplicationContext(), "Entry saved successfully.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
@@ -184,8 +182,8 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
             Entry sentenceEntryObj = new Entry("SENTENCE", timestamp, prompt, inSentenceEntry, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
-            DatabaseReference usersRef = databaseRef.child("users");
-            usersRef.child(username).child(timestamp).setValue(sentenceEntryObj);
+            DatabaseReference usersRef = databaseRef.child(getString(R.string.entries_path, username));
+            usersRef.child(timestamp).setValue(sentenceEntryObj);
         } catch (ParseException e) {
             Log.w("SentenceCatch", e);
         }
