@@ -95,6 +95,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     private MediaRecorder recorder;
     private MediaPlayer player;
 
+    static final int AUDIO_REQUEST_CODE = 3;
+
     // Note: if output is default, can change extension to what you want?
     private String extension = ".3gp";
 
@@ -211,26 +213,30 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     // Start recording the audio. Call this on pressing the "record" button.
     // Note: this uses examples from the Android documentation for the MediaRecorder
     private void recordAudio() {
-        // TODO: stop player to release
-        if (player != null) {
-            player.release();
-            player = null;
-        }
-        // TODO: dialog b/c file will be overwritten
-        createFilePath();
-        // Create MediaRecorder
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setOutputFile(fileName);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        try {
-            recorder.prepare();
-        } catch (IOException e) {
-            Log.e("AUDIO", "prepare() MediaRecorder failed in recordAudio()");
-        }
-        recorder.start();
-        Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_LONG).show();
+//        if (checkSelfPermission(RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(new String[] {RECORD_AUDIO}, AUDIO_REQUEST_CODE);
+//        } else {
+            // TODO: stop player to release
+            if (player != null) {
+                player.release();
+                player = null;
+            }
+            // TODO: dialog b/c file will be overwritten
+            createFilePath();
+            // Create MediaRecorder
+            recorder = new MediaRecorder();
+            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            recorder.setOutputFile(fileName);
+            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            try {
+                recorder.prepare();
+            } catch (IOException e) {
+                Log.e("AUDIO", "prepare() MediaRecorder failed in recordAudio()");
+            }
+            recorder.start();
+            Toast.makeText(getApplicationContext(), "Recording Started", Toast.LENGTH_LONG).show();
+//        }
     }
 
     // Stop recording the audio. Call this on pressing the "stop" button.
