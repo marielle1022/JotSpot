@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/soft_abstract_background_in_light_colors_vector_21474540"
@@ -132,46 +135,42 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
-    <ImageButton
-        android:id="@+id/upload_device_button"
-        android:layout_width="76dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/button_shape"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/camera_device_button"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
-
     <ScrollView
         android:id="@+id/thumbnail_scrollview"
         android:layout_width="300dp"
         android:layout_height="350dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintBottom_toTopOf="@id/photo_track_your_mood"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/camera_device_button"
         app:layout_constraintTop_toBottomOf="@id/save_button_photo">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/photo_preview_placeholder1"
                 android:layout_width="198dp"
                 android:layout_height="209dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginBottom="20dp"
                 app:srcCompat="@android:drawable/ic_menu_gallery" />
+
             <ImageView
                 android:id="@+id/photo_preview_placeholder2"
                 android:layout_width="198dp"
                 android:layout_height="209dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginBottom="20dp"
                 app:srcCompat="@android:drawable/ic_menu_gallery" />
+
             <ImageView
                 android:id="@+id/photo_preview_placeholder3"
                 android:layout_width="198dp"
                 android:layout_height="209dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginBottom="20dp"
                 app:srcCompat="@android:drawable/ic_menu_gallery" />
         </LinearLayout>
@@ -182,16 +181,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="15dp" />
+        app:layout_constraintGuide_end="70dp" />
 
     <TextView
         android:id="@+id/photo_track_your_mood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="180dp"
+        android:fontFamily="@font/rock_salt"
         android:text="@string/track_your_mood"
-        app:layout_constraintBottom_toTopOf="@+id/feelingButton1"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/feelingButton1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/thumbnail_scrollview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
