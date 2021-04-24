@@ -72,5 +72,7 @@
 
     <string name="voice_description">To listen to the voice entry, please click "View Entry."</string>
 
+    <string name="mood_added">Mood added.</string>
+
 
 </resources>
