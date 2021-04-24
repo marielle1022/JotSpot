@@ -108,18 +108,17 @@
         android:layout_height="243dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="110dp"
+        android:autofillHints=""
         android:background="@drawable/button_shape2"
+        android:gravity="top|left"
         android:paddingLeft="15dip"
         android:paddingTop="10dip"
         android:paddingRight="15dip"
         android:paddingBottom="10dip"
-        android:text="@string/text_entry_box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_text_button"
-        android:autofillHints=""
-        android:gravity="top|left"/>
+        app:layout_constraintTop_toBottomOf="@+id/save_text_button" />
 
     <Button
         android:id="@+id/save_text_button"
