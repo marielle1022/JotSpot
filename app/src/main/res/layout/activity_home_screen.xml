@@ -26,19 +26,21 @@
         android:id="@+id/create_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/button_shape"
         android:fontFamily="@font/rock_salt"
         android:text="Create an Entry"
         app:layout_constraintBottom_toTopOf="@+id/pastentries_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/jotspot_title"
-        android:background="@drawable/button_shape"/>
+        app:layout_constraintTop_toBottomOf="@+id/jotspot_title" />
 
 
     <Button
         android:id="@+id/pastentries_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:background="@drawable/button_shape"
         android:fontFamily="@font/rock_salt"
         android:text="Past Entries"
