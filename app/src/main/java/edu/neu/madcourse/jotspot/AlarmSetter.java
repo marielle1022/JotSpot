@@ -29,7 +29,7 @@ public class AlarmSetter implements Runnable{
     public void run() {
         Intent intent = new Intent(context, NotificationService.class);
         intent.putExtra(NotificationService.INTENT_NOTIFY, true);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
 
         if (repeat.equals("Never") || repeat.equals("Repeat")) {
             aManager.set(AlarmManager.RTC, reminderDate.getTimeInMillis(), pendingIntent);
