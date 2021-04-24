@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 
 import android.content.SharedPreferences;
@@ -44,8 +45,10 @@ public class TextEntryScreenActivity extends AppCompatActivity {
 
     private String timestamp;
 
-    private String username = "testUser";
-    private User user;
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
+
+    private String username;
 
     EditText textEntryView;
 
@@ -80,17 +83,13 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_entry_screen);
 
-        // TODO: figure out a better way to save username
-//        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-//        String username = sharedPreferences.getString("USERNAME_PREFERENCES", "user_not_found");
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
 
         // Firebase database objects
-        // TODO: figure out if this is the best place to do this
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
-
-        // TODO: set up actual user
-        user = new User(username);
 
         mood = strFeeling0;
 
@@ -131,7 +130,8 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                finish();
+                textEntryView.setText("");
+                mood = strFeeling0;
             }
         });
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -152,6 +152,7 @@ public class TextEntryScreenActivity extends AppCompatActivity {
         TextDbTask task = new TextDbTask();
         task.execute(textForEntry);
         Toast.makeText(getApplicationContext(), "Text entry saved successfully.", Toast.LENGTH_LONG).show();
+        textEntryView.setText("");
     }
 
     // Create text entry and add to the database
@@ -161,8 +162,9 @@ public class TextEntryScreenActivity extends AppCompatActivity {
             Entry textEntryObj = new Entry("TEXT", timestamp, inTextEntry, mood);
             // Method to add to firebase taken from Firebase Realtime Database
             // documentation on saving data
-            DatabaseReference usersRef = databaseRef.child("users");
-            usersRef.child(username).child(timestamp).setValue(textEntryObj);
+            DatabaseReference usersRef = databaseRef.child(getString(R.string.entries_path, username));
+            usersRef.child(timestamp).setValue(textEntryObj);
+            mood = strFeeling0;
         } catch (ParseException e) {
             Log.w(TAG, e);
         }

@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,7 +19,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import edu.neu.madcourse.jotspot.HomeScreenActivity;
 import edu.neu.madcourse.jotspot.PastPhotoEntryActivity;
 import edu.neu.madcourse.jotspot.PastSentenceActivity;
 import edu.neu.madcourse.jotspot.PastTextEntryActivity;
@@ -39,6 +40,9 @@ public class PastEntriesActivity extends AppCompatActivity {
     // List of past entry items
     private ArrayList<PastEntriesItemCard> entriesList = new ArrayList<>();
 
+    private SharedPreferences sharedPreferences;
+    private final String defaultString = "default";
+
     // Current username
     private String username;
 
@@ -52,7 +56,9 @@ public class PastEntriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_past_entries);
 
-        username = "testUser";
+        // Referenced Android documentation to retrieve data from Shared Preferences
+        sharedPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(getString(R.string.username_preferences_key), defaultString);
 
         createRecyclerView();
     }
@@ -70,7 +76,7 @@ public class PastEntriesActivity extends AppCompatActivity {
         // Note: references Unique Andro Code in how to retrieve data from firebase
         // Set up database reference pointing to Received messages under the current user
         final DatabaseReference db =
-                FirebaseDatabase.getInstance().getReference(getString(R.string.users_path,
+                FirebaseDatabase.getInstance().getReference(getString(R.string.entries_path,
                         username));
         // Note: new ValueEventListener auto populates onDataChange and onCancelled
         db.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -91,7 +97,7 @@ public class PastEntriesActivity extends AppCompatActivity {
                     }
 
                     // Create adapter from list of items (created inside if statement)
-                    pastEntriesAdapter = new PastEntriesRecyclerAdapter(entriesList);
+                    pastEntriesAdapter = new PastEntriesRecyclerAdapter(entriesList, getApplicationContext());
 
                     // Set listener for on item clicked
                     PastEntriesRecyclerListener itemClickListener = new PastEntriesRecyclerListener() {

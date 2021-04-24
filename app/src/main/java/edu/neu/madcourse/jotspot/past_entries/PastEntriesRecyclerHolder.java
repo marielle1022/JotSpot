@@ -24,8 +24,8 @@ public class PastEntriesRecyclerHolder extends RecyclerView.ViewHolder {
     public ImageView photoEntryImageView2;
     public ImageView photoEntryImageView3;
     // Voice Entry view
-    public ImageButton voiceEntryPlayButton;
-    public ImageButton voiceEntryStopButton;
+//    public ImageButton voiceEntryPlayButton;
+//    public ImageButton voiceEntryStopButton;
     // Sentence entry view
     public TextView sentenceEntryView;
     public TextView sentencePromptView;
@@ -46,8 +46,8 @@ public class PastEntriesRecyclerHolder extends RecyclerView.ViewHolder {
         photoEntryImageView2 = itemCardView.findViewById(R.id.photo_entry2_view);
         photoEntryImageView3 = itemCardView.findViewById(R.id.photo_entry3_view);
 
-        voiceEntryPlayButton = itemCardView.findViewById(R.id.ic_play_button);
-        voiceEntryStopButton = itemCardView.findViewById(R.id.ic_stop_button);
+//        voiceEntryPlayButton = itemCardView.findViewById(R.id.ic_play_button);
+//        voiceEntryStopButton = itemCardView.findViewById(R.id.ic_stop_button);
 
         sentencePromptView = itemCardView.findViewById(R.id.sentence_prompt);
         sentenceEntryView = itemCardView.findViewById(R.id.sentence_entry_view);

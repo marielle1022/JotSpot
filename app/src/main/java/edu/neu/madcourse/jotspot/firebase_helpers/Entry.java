@@ -82,6 +82,7 @@ public class Entry {
         sentenceEntry = inEntry;
         timestamp = inTimestamp;
         dateTimeStr = convertTimestamp();
+        mood = inMood;
     }
 
     // Create entry object for photo entry

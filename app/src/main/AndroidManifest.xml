@@ -21,16 +21,41 @@
         android:roundIcon="@mipmap/ic_launcher_js_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.JotSpot">
-        <activity android:name=".SampleBootReceiver"></activity>
-        <activity android:name=".LoginScreenActivity" />
-        <activity android:name=".PastSentenceActivity" />
-        <activity android:name=".PastPhotoEntryActivity" />
-        <activity android:name=".PastVoiceEntryActivity" />
-        <activity android:name=".PastTextEntryActivity" />
-        <activity android:name=".moods.MoodHistoryActivity" />
-        <activity android:name=".OneSentencePromptActivity" />
-        <activity android:name=".past_entries.PastEntriesActivity" />
-        <activity android:name=".PhotoEntryScreenActivity" />
+        <activity android:name=".CreateAccountActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".LoginScreenActivity"
+            android:configChanges="orientation|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".PastSentenceActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".PastPhotoEntryActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".PastVoiceEntryActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".PastTextEntryActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".moods.MoodHistoryActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".OneSentencePromptActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".past_entries.PastEntriesActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".PhotoEntryScreenActivity"
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".SettingsScreenActivity"
             android:configChanges="orientation|screenSize" />
@@ -50,11 +75,11 @@
         <activity
             android:name=".HomeScreenActivity"
             android:configChanges="orientation|screenSize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
         <meta-data
