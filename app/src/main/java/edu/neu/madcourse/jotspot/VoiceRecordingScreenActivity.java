@@ -8,7 +8,9 @@ import androidx.core.content.FileProvider;
 
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -96,6 +98,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     private MediaPlayer player;
 
     static final int AUDIO_REQUEST_CODE = 3;
+    static final int READ_REQUEST_CODE = 4;
+    static final int WRITE_REQUEST_CODE = 5;
 
     // Note: if output is default, can change extension to what you want?
     private String extension = ".3gp";
@@ -149,11 +153,30 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: save to cloud storage
-        // TODO: dialog
         saveEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveVoiceEntry();
+            }
+        });
+
+        // TODO: figure out how to discard file
+        discardEntryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                discard();
+            }
+        });
+    }
+
+    private void saveVoiceEntry() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm save");
+        builder.setMessage("Are you sure you are finished with this entry?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
                 if (recorder != null) {
                     recorder.release();
                     recorder = null;
@@ -166,12 +189,24 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
                 task.execute();
             }
         });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
-        // TODO: figure out how to discard file
-        // TODO: dialog
-        discardEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create();
+        builder.show();
+    }
+
+    private void discard() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm discard");
+        builder.setMessage("Are you sure you want to discard this entry?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
                 if (recorder != null) {
                     recorder.release();
                     recorder = null;
@@ -185,6 +220,15 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
                 createFilePath();
             }
         });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create();
+        builder.show();
     }
 
     // Set the views for all buttons
@@ -215,6 +259,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     private void recordAudio() {
         if (checkSelfPermission(RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[] {RECORD_AUDIO}, AUDIO_REQUEST_CODE);
+        } else if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST_CODE);
         } else {
             // TODO: stop player to release
             if (player != null) {
@@ -397,6 +443,7 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mood = strFeeling1;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -404,30 +451,35 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mood = strFeeling2;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling3;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling4;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling5;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling6;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
     }

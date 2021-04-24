@@ -13,13 +13,12 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+// Parts of the following code are cited from https://blog.blundellapps.co.uk/notification-for-a-user-chosen-time/
+
 public class SettingsScreenActivity extends AppCompatActivity {
 
-
-    // This is a handle so that we can call methods on our service
-    private ScheduleClient scheduleClient;
-    // This is the date picker used to select the date for our notification
-    private DatePicker picker;
+    private ScheduleNotificationClient scheduleClient;
+    private DatePicker datePicker;
     private TimePicker timePicker;
     private Button scheduleButton;
     private Spinner repeatSpinner;
@@ -29,11 +28,10 @@ public class SettingsScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_screen);
 
-        scheduleClient = new ScheduleClient(this);
+        scheduleClient = new ScheduleNotificationClient(this);
         scheduleClient.doBindService();
 
-        // Get a reference to our date picker
-        picker = (DatePicker) findViewById(R.id.scheduleTimePicker);
+        datePicker = (DatePicker) findViewById(R.id.reminderTimePicker);
         timePicker = (TimePicker) findViewById(R.id.timePicker1);
         scheduleButton = (Button) findViewById(R.id.selectButton);
 
@@ -44,14 +42,12 @@ public class SettingsScreenActivity extends AppCompatActivity {
         repeatSpinner.setAdapter(adapter);
 
 
-
         scheduleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Get the date from our datepicker
-                int day = picker.getDayOfMonth();
-                int month = picker.getMonth();
-                int year = picker.getYear();
+                int day = datePicker.getDayOfMonth();
+                int month = datePicker.getMonth();
+                int year = datePicker.getYear();
                 int hour = timePicker.getHour();
                 String AmPm = "AM";
                 if (hour > 12) {
@@ -67,17 +63,13 @@ public class SettingsScreenActivity extends AppCompatActivity {
                     stringMinute = "0" + stringMinute;
                 }
                 String repeat = repeatSpinner.getSelectedItem().toString();
-                // Create a new calendar set to the date chosen
-                // we set the time to midnight (i.e. the first minute of that day)
-                Calendar c = Calendar.getInstance();
-                c.set(year, month, day);
-                c.set(Calendar.HOUR_OF_DAY, hour);
-                c.set(Calendar.MINUTE, minute);
-                c.set(Calendar.SECOND, 0);
+                Calendar reminderCalendar = Calendar.getInstance();
+                reminderCalendar.set(year, month, day);
+                reminderCalendar.set(Calendar.HOUR_OF_DAY, hour);
+                reminderCalendar.set(Calendar.MINUTE, minute);
+                reminderCalendar.set(Calendar.SECOND, 0);
 
-                // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
-                scheduleClient.setAlarmForNotification(c, repeat);
-                // Notify the user what they just did
+                scheduleClient.setAlarmForNotification(reminderCalendar, repeat);
                 if (repeat.equals("Daily")) {
                     Toast.makeText(getApplicationContext(), "Reminder is set for: "+ (month+1) +"/" + day + "/"+ year +
                             " at " + hour + ":" + stringMinute + " " + AmPm + "\nThis reminder will repeat daily at " + hour + ":" + stringMinute + " " + AmPm, Toast.LENGTH_SHORT).show();
@@ -101,7 +93,4 @@ public class SettingsScreenActivity extends AppCompatActivity {
 
     }
 
-    private String getRepeat() {
-        return repeatSpinner.getSelectedItem().toString();
-    }
 }

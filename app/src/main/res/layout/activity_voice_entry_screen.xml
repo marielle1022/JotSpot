@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".VoiceRecordingScreenActivity"
@@ -17,41 +22,41 @@
 
     <ImageButton
         android:id="@+id/record_button"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/button_shape"
-        android:backgroundTint="#717D7F"
         app:layout_constraintBottom_toTopOf="@id/stop_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/presence_audio_online" />
+        app:srcCompat="@mipmap/record_button" />
 
     <ImageButton
         android:id="@+id/play_button"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="100dp"
         android:background="@drawable/button_shape"
-        android:backgroundTint="#717D7F"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/stop_button"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        app:srcCompat="@mipmap/play_button" />
 
     <ImageButton
         android:id="@+id/stop_button"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/button_shape"
-        android:backgroundTint="#717D7F"
         app:layout_constraintBottom_toTopOf="@id/play_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/record_button"
-        app:srcCompat="@android:drawable/picture_frame"
+        app:srcCompat="@mipmap/stop_button"
         tools:layout_constraintTop_toBottomOf="@id/record_button" />
 
     <ImageButton
@@ -177,9 +182,49 @@
         android:id="@+id/recording_track_your_mood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="22dp"
+        android:fontFamily="@font/rock_salt"
         android:text="@string/track_your_mood"
+        android:textColor="#000000"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/feelingButton1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/play_button" />
+
+    <TextView
+        android:id="@+id/record_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rock_salt"
+        android:text="Record"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/record_button" />
+
+    <TextView
+        android:id="@+id/stop_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rock_salt"
+        android:text="Stop"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stop_button" />
+
+    <TextView
+        android:id="@+id/play_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/rock_salt"
+        android:text="Play"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/play_button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

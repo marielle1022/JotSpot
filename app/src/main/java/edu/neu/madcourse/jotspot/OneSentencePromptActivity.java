@@ -238,6 +238,7 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
             @Override
             public void onClick(View v) {
                 mood = strFeeling1;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -245,30 +246,35 @@ public class OneSentencePromptActivity extends AppCompatActivity implements Adap
             @Override
             public void onClick(View v) {
                 mood = strFeeling2;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling3;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling4;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling5;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling6;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
     }

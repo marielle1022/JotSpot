@@ -115,6 +115,8 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
 
     static final int MY_REQUEST_CODE = 1;
     static final int MY_PHOTO_REQUEST_CODE = 2;
+    static final int READ_REQUEST_CODE = 4;
+    static final int WRITE_REQUEST_CODE = 5;
     private String TAG = "EntryTag";
 
     @Override
@@ -179,6 +181,28 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
             @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick (View view) {
+                savePhotoEntry();
+            }
+        });
+
+        // Discard entry
+        // TODO: figure out how to delete locally stored files
+        discardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                discardPhotoEntry();
+            }
+        });
+    }
+
+    private  void savePhotoEntry() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm save");
+        builder.setMessage("Are you sure you are finished with this entry?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
                 if ((listImageFileNames.size() != 0) && (listPhotoUris.size() != 0)) {
                     // For each image in the entry, create a reference to where the image will be
                     // stored in cloud storage
@@ -199,15 +223,15 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 }
             }
         });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
-        // Discard entry
-        // TODO: figure out how to delete locally stored files
-        discardButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                discardPhotoEntry();
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
+        builder.create();
+        builder.show();
     }
 
     // Taken from Android Camera/Photo Basics documentation
@@ -233,6 +257,8 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA},
                     MY_REQUEST_CODE);
+        } else if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST_CODE);
         } else {
             try {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -266,21 +292,25 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
     }
 
     private void displayPhotoFromUri() throws IOException {
-        Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_REQUEST_CODE);
+        } else {
+            Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
 //        Bitmap scaledImageBitmap = Bitmap.createScaledBitmap(imageBitmap,  600 ,600, true);
-        if (numPhotosThisEntry == 0) {
-            thumbnail1.setImageBitmap(imageBitmap);
-            thumbnail1.setVisibility(View.VISIBLE);
-        } else if (numPhotosThisEntry == 1) {
-            thumbnail2.setImageBitmap(imageBitmap);
-            thumbnail2.setVisibility(View.VISIBLE);
-        } else if (numPhotosThisEntry == 2) {
-            thumbnail3.setImageBitmap(imageBitmap);
-            thumbnail3.setVisibility(View.VISIBLE);
+            if (numPhotosThisEntry == 0) {
+                thumbnail1.setImageBitmap(imageBitmap);
+                thumbnail1.setVisibility(View.VISIBLE);
+            } else if (numPhotosThisEntry == 1) {
+                thumbnail2.setImageBitmap(imageBitmap);
+                thumbnail2.setVisibility(View.VISIBLE);
+            } else if (numPhotosThisEntry == 2) {
+                thumbnail3.setImageBitmap(imageBitmap);
+                thumbnail3.setVisibility(View.VISIBLE);
+            }
+            // Add 1 to number of photos for this entry
+            numPhotosThisEntry += 1;
         }
-        // Add 1 to number of photos for this entry
-        numPhotosThisEntry += 1;
-    }
+        }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -393,6 +423,8 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 thumbnail2.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
                 thumbnail3.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
                 mood = strFeeling0;
+                numPhotosThisEntry = 0;
+                numPhotosLeftThisEntry = 0;
             }
         });
         builder.setNegativeButton(getString(R.string.discard_photo_no), new DialogInterface.OnClickListener() {
@@ -427,6 +459,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mood = strFeeling1;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -434,30 +467,35 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mood = strFeeling2;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling3;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling4;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling5;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling6;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
     }
