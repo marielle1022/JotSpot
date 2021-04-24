@@ -7,7 +7,7 @@
     <string name="discard">Discard</string>
     <string name="Schedule">Customize Your Schedule</string>
     <string name="jotspot">JotSpot</string>
-    <string name="create_account">Create Account</string>
+    <string name="create_account">Click here to create account</string>
     <string name="create">Create</string>
 
     <string name="preference_file_key">edu.neu.madcourse.jotspot.PREFERENCE_FILE_KEY</string>
