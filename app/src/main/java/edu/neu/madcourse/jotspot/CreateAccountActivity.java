@@ -38,11 +38,19 @@ public class CreateAccountActivity extends AppCompatActivity {
     private Button createAccountButton;
 
     /*
-    Checks username and password
+    Checks username
     Allows for uppercase and lowercase letters (without accents) and certain special characters
     Does not allow spaces
     */
-    private static final String USERNAME_PASSWORD_PATTERN = "([a-zA-Z0-9\\-_!*@]+)";
+    private static final String USERNAME_PATTERN = "([a-zA-Z0-9\\-_!*@]+)";
+
+    /*
+    Checks username
+    Allows for uppercase and lowercase letters (without accents) and certain special characters
+    Does not allow spaces
+    Requires at least 8 characters and at least one letter
+    */
+    private static final String PASSWORD_PATTERN = "([(?=.*[a-zA-Z])-9\\-_!*@]+).{7,}$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,12 +100,12 @@ public class CreateAccountActivity extends AppCompatActivity {
                 if (!snapshot.exists()) {
                     if (passwordView.getText() != null) {
                         // If the username does not exist, check if it's valid
-                        if (!usernameVal.matches(USERNAME_PASSWORD_PATTERN) || usernameVal.equals("")) {
+                        if (!usernameVal.matches(USERNAME_PATTERN) || usernameVal.equals("")) {
                             Toast.makeText(getApplicationContext(), "Please enter a username with no spaces, only letters, numbers, and/or the following: - . _ ! * @", Toast.LENGTH_LONG).show();
-                        } else if (!passwordView.getText().toString().matches(USERNAME_PASSWORD_PATTERN)) {
-                            Toast.makeText(getApplicationContext(), "Please enter a username with no spaces, only letters, numbers, and/or the following: - . _ ! * @", Toast.LENGTH_LONG).show();
+                        } else if (!passwordView.getText().toString().matches(PASSWORD_PATTERN)) {
+                            Toast.makeText(getApplicationContext(), "Please enter a password with at least 8 characters and no spaces. Allowed characters are letters, numbers, and/or the following: - . _ ! * @", Toast.LENGTH_LONG).show();
                         } else {
-                            // If the username is valid, pass the username and hashed password to the database
+                            // If the username is valid, pass the username and hashed password to the databases
                             writePersonalInfo(usernameVal);
                         }
                     } else {

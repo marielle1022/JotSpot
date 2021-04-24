@@ -118,6 +118,12 @@ public class LoginScreenActivity extends AppCompatActivity {
                             // Referenced Android documentation to write username locally
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString(getString(R.string.username_preferences_key), usernameVal);
+                            // Note: storing password locally to android device as plain text is not good
+                            // practice, but we think it is preferable to storing the password hash locally as
+                            // plain text.
+                            // Future iterations will implement Account Manager, but we were unable to get that
+                            // working for this iteration of the project.
+                            editor.putString(getString(R.string.password_preferences_key), passwordView.getText().toString());
                             editor.apply();
 
                             checkPassword(user.getHashedPassword());

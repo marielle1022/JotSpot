@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -148,11 +149,32 @@ public class TextEntryScreenActivity extends AppCompatActivity {
     // TODO: figure out dialogs?
     // Save the text entry
     private void saveTextEntry() {
-        String textForEntry = textEntryView.getText().toString();
-        TextDbTask task = new TextDbTask();
-        task.execute(textForEntry);
-        Toast.makeText(getApplicationContext(), "Text entry saved successfully.", Toast.LENGTH_LONG).show();
-        textEntryView.setText("");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm save");
+        builder.setMessage("Are you sure you are finished with this entry?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                String textForEntry = textEntryView.getText().toString();
+                TextDbTask task = new TextDbTask();
+                task.execute(textForEntry);
+                Toast.makeText(getApplicationContext(), "Text entry saved successfully.", Toast.LENGTH_LONG).show();
+//                Toast toast = Toast.makeText(getApplicationContext(), "Text entry saved successfully.", Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.CENTER|Gravity.CENTER_HORIZONTAL, 0, 0);
+//                toast.show();
+                textEntryView.setText("");
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create();
+        builder.show();
     }
 
     // Create text entry and add to the database
@@ -205,6 +227,7 @@ public class TextEntryScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mood = strFeeling1;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -212,30 +235,35 @@ public class TextEntryScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mood = strFeeling2;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling3;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling4;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling5;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling6;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
     }

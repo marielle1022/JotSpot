@@ -179,6 +179,28 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
             @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick (View view) {
+                savePhotoEntry();
+            }
+        });
+
+        // Discard entry
+        // TODO: figure out how to delete locally stored files
+        discardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                discardPhotoEntry();
+            }
+        });
+    }
+
+    private  void savePhotoEntry() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm save");
+        builder.setMessage("Are you sure you are finished with this entry?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
                 if ((listImageFileNames.size() != 0) && (listPhotoUris.size() != 0)) {
                     // For each image in the entry, create a reference to where the image will be
                     // stored in cloud storage
@@ -199,15 +221,15 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 }
             }
         });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
-        // Discard entry
-        // TODO: figure out how to delete locally stored files
-        discardButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                discardPhotoEntry();
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
+        builder.create();
+        builder.show();
     }
 
     // Taken from Android Camera/Photo Basics documentation
@@ -393,6 +415,8 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 thumbnail2.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
                 thumbnail3.setImageDrawable(getDrawable(android.R.drawable.ic_menu_gallery));
                 mood = strFeeling0;
+                numPhotosThisEntry = 0;
+                numPhotosLeftThisEntry = 0;
             }
         });
         builder.setNegativeButton(getString(R.string.discard_photo_no), new DialogInterface.OnClickListener() {
@@ -427,6 +451,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mood = strFeeling1;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -434,30 +459,35 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mood = strFeeling2;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling3;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling4;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling5;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
         feeling6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mood = strFeeling6;
+                Toast.makeText(getApplicationContext(), getString(R.string.mood_added), Toast.LENGTH_LONG).show();
             }
         });
     }
