@@ -11,6 +11,7 @@
         android:id="@+id/past_voice_entry_date_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
         android:layout_marginBottom="40dp"
         android:text="@string/date_time_default"
         app:layout_constraintBottom_toTopOf="@+id/past_voice_entry_play"
@@ -22,23 +23,23 @@
 
     <ImageButton
         android:id="@+id/past_voice_entry_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/button_shape"
-        app:layout_constraintTop_toBottomOf="@+id/past_voice_entry_date_time"
         app:layout_constraintBottom_toTopOf="@+id/past_voice_entry_pause"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/past_voice_entry_date_time"
         app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        app:srcCompat="@mipmap/play_button_darker" />
 
     <ImageButton
         android:id="@+id/past_voice_entry_pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="50dp"
         android:background="@drawable/button_shape"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,5 +47,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/past_voice_entry_play"
-        app:srcCompat="@android:drawable/ic_media_pause" />
+        app:srcCompat="@mipmap/pause_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
