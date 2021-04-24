@@ -115,6 +115,8 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
 
     static final int MY_REQUEST_CODE = 1;
     static final int MY_PHOTO_REQUEST_CODE = 2;
+    static final int READ_REQUEST_CODE = 4;
+    static final int WRITE_REQUEST_CODE = 5;
     private String TAG = "EntryTag";
 
     @Override
@@ -255,6 +257,8 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA},
                     MY_REQUEST_CODE);
+        } else if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST_CODE);
         } else {
             try {
                 Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -288,21 +292,25 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
     }
 
     private void displayPhotoFromUri() throws IOException {
-        Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_REQUEST_CODE);
+        } else {
+            Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
 //        Bitmap scaledImageBitmap = Bitmap.createScaledBitmap(imageBitmap,  600 ,600, true);
-        if (numPhotosThisEntry == 0) {
-            thumbnail1.setImageBitmap(imageBitmap);
-            thumbnail1.setVisibility(View.VISIBLE);
-        } else if (numPhotosThisEntry == 1) {
-            thumbnail2.setImageBitmap(imageBitmap);
-            thumbnail2.setVisibility(View.VISIBLE);
-        } else if (numPhotosThisEntry == 2) {
-            thumbnail3.setImageBitmap(imageBitmap);
-            thumbnail3.setVisibility(View.VISIBLE);
+            if (numPhotosThisEntry == 0) {
+                thumbnail1.setImageBitmap(imageBitmap);
+                thumbnail1.setVisibility(View.VISIBLE);
+            } else if (numPhotosThisEntry == 1) {
+                thumbnail2.setImageBitmap(imageBitmap);
+                thumbnail2.setVisibility(View.VISIBLE);
+            } else if (numPhotosThisEntry == 2) {
+                thumbnail3.setImageBitmap(imageBitmap);
+                thumbnail3.setVisibility(View.VISIBLE);
+            }
+            // Add 1 to number of photos for this entry
+            numPhotosThisEntry += 1;
         }
-        // Add 1 to number of photos for this entry
-        numPhotosThisEntry += 1;
-    }
+        }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

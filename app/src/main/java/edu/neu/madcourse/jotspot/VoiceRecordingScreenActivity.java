@@ -98,6 +98,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     private MediaPlayer player;
 
     static final int AUDIO_REQUEST_CODE = 3;
+    static final int READ_REQUEST_CODE = 4;
+    static final int WRITE_REQUEST_CODE = 5;
 
     // Note: if output is default, can change extension to what you want?
     private String extension = ".3gp";
@@ -257,6 +259,8 @@ public class VoiceRecordingScreenActivity extends AppCompatActivity {
     private void recordAudio() {
         if (checkSelfPermission(RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[] {RECORD_AUDIO}, AUDIO_REQUEST_CODE);
+        } else if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST_CODE);
         } else {
             // TODO: stop player to release
             if (player != null) {
