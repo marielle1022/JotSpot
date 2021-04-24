@@ -49,12 +49,19 @@ public class SettingsScreenActivity extends AppCompatActivity {
                 int month = datePicker.getMonth();
                 int year = datePicker.getYear();
                 int hour = timePicker.getHour();
+                String stringHour = String.valueOf(hour);
                 String AmPm = "AM";
+                if (hour == 0) {
+                    stringHour = "12";
+                    AmPm = "AM";
+                }
+                if (hour == 12) {
+                    AmPm = "PM";
+                }
                 if (hour > 12) {
+
                     hour -= 12;
-                    if (hour == 0) {
-                        hour = 12;
-                    }
+                    stringHour = String.valueOf(hour);
                     AmPm = "PM";
                 }
                 int minute = timePicker.getMinute();
@@ -72,18 +79,18 @@ public class SettingsScreenActivity extends AppCompatActivity {
                 scheduleClient.setAlarmForNotification(reminderCalendar, repeat);
                 if (repeat.equals("Daily")) {
                     Toast.makeText(getApplicationContext(), "Reminder is set for: "+ (month+1) +"/" + day + "/"+ year +
-                            " at " + hour + ":" + stringMinute + " " + AmPm + "\nThis reminder will repeat daily at " + hour + ":" + stringMinute + " " + AmPm, Toast.LENGTH_SHORT).show();
+                            " at " + stringHour + ":" + stringMinute + " " + AmPm + "\nThis reminder will repeat daily at " + stringHour + ":" + stringMinute + " " + AmPm, Toast.LENGTH_SHORT).show();
                 }
                 else if (repeat.equals("Weekly")) {
-                    Toast.makeText(getApplicationContext(), "Reminder is set for: " + (month+1) + "/" + day + "/"+ year + " at " + hour + ":" + stringMinute + " " + AmPm +
+                    Toast.makeText(getApplicationContext(), "Reminder is set for: " + (month+1) + "/" + day + "/"+ year + " at " + stringHour + ":" + stringMinute + " " + AmPm +
                             "\nThis reminder will repeat weekly", Toast.LENGTH_SHORT).show();
                 }
                 else if (repeat.equals("Monthly")) {
-                    Toast.makeText(getApplicationContext(), "Reminder is set for: " + (month+1) + "/" + day + "/"+ year + " at " + hour + ":" + stringMinute + " " + AmPm +
+                    Toast.makeText(getApplicationContext(), "Reminder is set for: " + (month+1) + "/" + day + "/"+ year + " at " + stringHour + ":" + stringMinute + " " + AmPm +
                             "\nThis reminder will repeat monthly", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Reminder is set for: "+ (month+1) +"/" + day + "/"+ year +
-                            " at " + hour + ":" + stringMinute + " " + AmPm, Toast.LENGTH_SHORT).show();
+                            " at " + stringHour + ":" + stringMinute + " " + AmPm, Toast.LENGTH_SHORT).show();
                 }
                 if(scheduleClient != null)
                     scheduleClient.doUnbindService();
