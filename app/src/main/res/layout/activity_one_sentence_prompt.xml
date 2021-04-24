@@ -158,7 +158,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="3dp"
+        android:fontFamily="@font/rock_salt"
         android:text="@string/track_your_mood"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/feelingButton1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/one_sentence_entry" />
