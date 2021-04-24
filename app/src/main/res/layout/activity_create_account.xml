@@ -36,6 +36,7 @@
             android:id="@+id/username_create"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:hint="@string/username" />
     </com.google.android.material.textfield.TextInputLayout>
 
