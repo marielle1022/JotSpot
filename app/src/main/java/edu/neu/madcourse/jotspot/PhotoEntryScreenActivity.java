@@ -159,7 +159,7 @@ public class PhotoEntryScreenActivity extends AppCompatActivity {
         discardButton = (Button) findViewById(R.id.discard_button_photo);
 
         cameraButton = (ImageButton) findViewById(R.id.camera_device_button);
-        uploadButton = (ImageButton) findViewById(R.id.upload_device_button);
+
 
         // Take a photo
         cameraButton.setOnClickListener(new View.OnClickListener() {
